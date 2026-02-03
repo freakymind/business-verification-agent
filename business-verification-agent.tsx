@@ -2239,18 +2239,20 @@ export default function BusinessVerificationAgent() {
                             Key Insights
                           </h4>
                           <ul className="space-y-1">
-                            {companyData.soleTraderVerification.llmAnalysis.insights.map((insight, index) => (
+                            {companyData.soleTraderVerification.llmAnalysis.insights?.map((insight, index) => (
                               <li key={index} className="flex items-start gap-1 text-xs">
                                 <CheckCircle className="h-3 w-3 text-primary mt-0.5 flex-shrink-0" />
                                 <span>{insight}</span>
                               </li>
-                            ))}
+                            )) || (
+                              <li className="text-xs text-muted-foreground">No insights available</li>
+                            )}
                           </ul>
                         </div>
                         
                         {/* Strengths & Red Flags */}
                         <div className="space-y-2">
-                          {companyData.soleTraderVerification.llmAnalysis.strengths.length > 0 && (
+                          {companyData.soleTraderVerification.llmAnalysis.strengths?.length > 0 && (
                             <div>
                               <h4 className="text-xs font-semibold mb-1 text-green-700 flex items-center gap-1">
                                 <ThumbsUp className="h-3 w-3" />
@@ -2267,7 +2269,7 @@ export default function BusinessVerificationAgent() {
                             </div>
                           )}
                           
-                          {companyData.soleTraderVerification.llmAnalysis.redFlags.length > 0 && (
+                          {companyData.soleTraderVerification.llmAnalysis.redFlags?.length > 0 && (
                             <div>
                               <h4 className="text-xs font-semibold mb-1 text-red-700 flex items-center gap-1">
                                 <ShieldAlert className="h-3 w-3" />
@@ -2297,18 +2299,23 @@ export default function BusinessVerificationAgent() {
                         <Star className="h-4 w-4" />
                         Customer Reviews
                       </CardTitle>
-                      <div className="text-xl font-bold text-primary">
-                        {(companyData.reviews.reduce((sum, r) => sum + r.rating, 0) / companyData.reviews.length).toFixed(1)}
-                        <span className="text-xs text-muted-foreground ml-1">/ 5.0</span>
-                      </div>
+                      {companyData.reviews && companyData.reviews.length > 0 && (
+                        <div className="text-xl font-bold text-primary">
+                          {(companyData.reviews.reduce((sum, r) => sum + r.rating, 0) / companyData.reviews.length).toFixed(1)}
+                          <span className="text-xs text-muted-foreground ml-1">/ 5.0</span>
+                        </div>
+                      )}
                     </div>
-                    <CardDescription className="text-xs">
-                      Based on {companyData.reviews.reduce((sum, r) => sum + r.count, 0)} reviews across {companyData.reviews.length} platforms
-                    </CardDescription>
+                    {companyData.reviews && companyData.reviews.length > 0 && (
+                      <CardDescription className="text-xs">
+                        Based on {companyData.reviews.reduce((sum, r) => sum + r.count, 0)} reviews across {companyData.reviews.length} platforms
+                      </CardDescription>
+                    )}
                   </CardHeader>
                   <CardContent className="py-3">
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                      {companyData.reviews.map((review, index) => (
+                    {companyData.reviews && companyData.reviews.length > 0 ? (
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                        {companyData.reviews.map((review, index) => (
                         <div key={index} className="p-2 border rounded bg-secondary/20">
                           <div className="flex items-center justify-between mb-1">
                             <span className="text-xs font-semibold truncate">{review.source}</span>
@@ -2334,6 +2341,12 @@ export default function BusinessVerificationAgent() {
                         </div>
                       ))}
                     </div>
+                    ) : (
+                      <div className="text-center py-8">
+                        <Star className="h-12 w-12 text-muted-foreground mx-auto mb-2 opacity-50" />
+                        <p className="text-sm text-muted-foreground">No reviews available yet</p>
+                      </div>
+                    )}
                   </CardContent>
                 </Card>
               </div>
