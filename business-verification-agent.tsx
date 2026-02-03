@@ -2247,40 +2247,23 @@ export default function BusinessVerificationAgent() {
                     </div>
 
                     {/* Review Summary */}
-                    <CardContent className="pt-0">
-                      <div className="p-4 bg-secondary/50 rounded-lg">
-                        <h3 className="font-semibold mb-2">Review Summary</h3>
-                        <p className="text-sm text-muted-foreground leading-relaxed">
-                          This business has received {companyData.reviews.reduce((sum, r) => sum + r.count, 0)} total reviews across {companyData.reviews.length} platforms with an average rating of {(companyData.reviews.reduce((sum, r) => sum + r.rating, 0) / companyData.reviews.length).toFixed(1)} out of 5 stars. 
-                          The reviews indicate {
-                            (companyData.reviews.reduce((sum, r) => sum + r.rating, 0) / companyData.reviews.length) >= 4 
-                              ? "strong customer satisfaction and positive experiences" 
-                              : (companyData.reviews.reduce((sum, r) => sum + r.rating, 0) / companyData.reviews.length) >= 3 
-                                ? "generally positive customer feedback with room for improvement"
-                                : "mixed customer experiences requiring attention"
-                          }.
-                        </p>
-                      </div>
-                    </CardContent>
-                  </Card>
-
-                  {/* Review Summary */}
-                  <div className="p-4 bg-secondary/50 rounded-lg">
-                    <h3 className="font-semibold mb-2">Review Summary</h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed">
-                      This business has received {companyData.reviews.reduce((sum, r) => sum + r.count, 0)} total reviews across {companyData.reviews.length} platforms with an average rating of {(companyData.reviews.reduce((sum, r) => sum + r.rating, 0) / companyData.reviews.length).toFixed(1)} out of 5 stars. 
-                      The reviews indicate {
-                        (companyData.reviews.reduce((sum, r) => sum + r.rating, 0) / companyData.reviews.length) >= 4 
-                          ? "strong customer satisfaction and positive experiences" 
-                          : (companyData.reviews.reduce((sum, r) => sum + r.rating, 0) / companyData.reviews.length) >= 3 
-                            ? "generally positive customer feedback with room for improvement"
-                            : "mixed customer experiences requiring attention"
-                      }.
-                    </p>
-                  </div>
+                    <div className="p-4 bg-secondary/50 rounded-lg mt-4">
+                      <h3 className="font-semibold mb-2">Review Summary</h3>
+                      <p className="text-sm text-muted-foreground leading-relaxed">
+                        This business has received {companyData.reviews.reduce((sum, r) => sum + r.count, 0)} total reviews across {companyData.reviews.length} platforms with an average rating of {(companyData.reviews.reduce((sum, r) => sum + r.rating, 0) / companyData.reviews.length).toFixed(1)} out of 5 stars. 
+                        The reviews indicate {
+                          (companyData.reviews.reduce((sum, r) => sum + r.rating, 0) / companyData.reviews.length) >= 4 
+                            ? "strong customer satisfaction and positive experiences" 
+                            : (companyData.reviews.reduce((sum, r) => sum + r.rating, 0) / companyData.reviews.length) >= 3 
+                              ? "generally positive customer feedback with room for improvement"
+                              : "mixed customer experiences requiring attention"
+                        }.
+                      </p>
+                    </div>
+                  </CardContent>
                 </Card>
 
-                  {/* LLM Analysis */}
+                  {/* AI Credibility Analysis */}
                   <Card>
                     <CardHeader>
                       <CardTitle className="flex items-center gap-2">
