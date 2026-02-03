@@ -1664,47 +1664,7 @@ export default function BusinessVerificationAgent() {
 
         {/* Results */}
         {companyData && (
-          <div className="space-y-6">
-            {/* Legitimacy Score */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center justify-between">
-                  <span>Legitimacy Assessment</span>
-                  <Badge {...getScoreBadge(companyData.legitimacyScore)}>
-                    {getScoreBadge(companyData.legitimacyScore).text}
-                  </Badge>
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="text-center">
-                    <div className={`text-6xl font-bold ${getScoreColor(companyData.legitimacyScore)}`}>
-                      {companyData.legitimacyScore}
-                    </div>
-                    <div className="text-lg text-gray-600">Legitimacy Score</div>
-                  </div>
-
-                  <Progress value={companyData.legitimacyScore} className="h-3" />
-
-                  {companyData.riskFactors.length > 0 && (
-                    <div>
-                      <h4 className="font-medium text-red-600 mb-2">Risk Factors:</h4>
-                      <ul className="space-y-1">
-                        {companyData.riskFactors.map((factor, index) => (
-                          <li key={index} className="flex items-center gap-2 text-sm">
-                            <AlertCircle className="h-4 w-4 text-red-500" />
-                            {factor}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-
-          {/* Company Details */}
-          <Tabs defaultValue="summary" className="space-y-4">
+          <Tabs defaultValue="summary" className="space-y-6">
             {/* Unified TabsList for all business types */}
             <TabsList className="grid w-full grid-cols-6">
               <TabsTrigger value="summary">Summary</TabsTrigger>
