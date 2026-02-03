@@ -2193,7 +2193,8 @@ export default function BusinessVerificationAgent() {
 
             {/* Reviews Tab (Updated for unified view) */}
             <TabsContent value="reviews">
-              <div className="space-y-6">
+              {companyData.type === "Sole Trader" && companyData.soleTraderVerification ? (
+                <div className="space-y-6">
                   {/* Google Search Results */}
                   <Card>
                     <CardHeader>
@@ -2202,38 +2203,82 @@ export default function BusinessVerificationAgent() {
                         Google Search Results
                       </CardTitle>
                       <CardDescription>
-                        Found {companyData.soleTraderVerification.googleSearchResults.length} results across the web
+                        Top search results for this business
                       </CardDescription>
                     </CardHeader>
                     <CardContent>
-                      <div className="space-y-3">
-                        {companyData.soleTraderVerification.googleSearchResults.map((result, index) => (
-                          <div key={index} className="p-4 border rounded-lg hover:bg-gray-50 transition-colors">
-                            <div className="flex items-start justify-between gap-3">
-                              <div className="flex-1">
-                                <div className="flex items-center gap-2 mb-1">
-                                  <h4 className="font-medium text-blue-600">{result.title}</h4>
-                                  <Badge variant="outline" className="text-xs">
-                                    {result.source}
-                                  </Badge>
+                      <div className="space-y-4">
+                        {companyData.reviews.map((review, index) => (
+                          <div key={index} className="p-4 border-2 rounded-lg bg-white hover:shadow-md transition-shadow">
+                            <div className="flex items-center justify-between mb-3">
+                              <div className="flex items-center gap-3">
+                                <div className="h-10 w-10 bg-primary rounded-full flex items-center justify-center">
+                                  <Star className="h-5 w-5 text-white fill-white" />
                                 </div>
-                                <p className="text-sm text-gray-600 mb-2">{result.snippet}</p>
-                                <a
-                                  href={result.link}
-                                  className="text-xs text-blue-500 hover:underline flex items-center gap-1"
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                >
-                                  {result.link}
-                                  <ExternalLink className="h-3 w-3" />
-                                </a>
+                                <div>
+                                  <div className="font-semibold">{review.source}</div>
+                                  <div className="text-xs text-muted-foreground">{review.count} reviews</div>
+                                </div>
+                              </div>
+                              <div className="text-right">
+                                <div className="text-2xl font-bold text-primary">{review.rating}</div>
+                                <div className="flex items-center gap-0.5">
+                                  {[1, 2, 3, 4, 5].map((star) => (
+                                    <Star 
+                                      key={star} 
+                                      className={`h-3 w-3 ${star <= Math.round(review.rating) ? "fill-accent text-accent" : "text-muted"}`} 
+                                    />
+                                  ))}
+                                </div>
                               </div>
                             </div>
+                            <a
+                              href={review.link}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-sm text-primary hover:underline flex items-center gap-1"
+                            >
+                              View all reviews on {review.source}
+                              <ExternalLink className="h-3 w-3" />
+                            </a>
                           </div>
                         ))}
                       </div>
+                    </div>
+
+                    {/* Review Summary */}
+                    <CardContent className="pt-0">
+                      <div className="p-4 bg-secondary/50 rounded-lg">
+                        <h3 className="font-semibold mb-2">Review Summary</h3>
+                        <p className="text-sm text-muted-foreground leading-relaxed">
+                          This business has received {companyData.reviews.reduce((sum, r) => sum + r.count, 0)} total reviews across {companyData.reviews.length} platforms with an average rating of {(companyData.reviews.reduce((sum, r) => sum + r.rating, 0) / companyData.reviews.length).toFixed(1)} out of 5 stars. 
+                          The reviews indicate {
+                            (companyData.reviews.reduce((sum, r) => sum + r.rating, 0) / companyData.reviews.length) >= 4 
+                              ? "strong customer satisfaction and positive experiences" 
+                              : (companyData.reviews.reduce((sum, r) => sum + r.rating, 0) / companyData.reviews.length) >= 3 
+                                ? "generally positive customer feedback with room for improvement"
+                                : "mixed customer experiences requiring attention"
+                          }.
+                        </p>
+                      </div>
                     </CardContent>
                   </Card>
+
+                  {/* Review Summary */}
+                  <div className="p-4 bg-secondary/50 rounded-lg">
+                    <h3 className="font-semibold mb-2">Review Summary</h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                      This business has received {companyData.reviews.reduce((sum, r) => sum + r.count, 0)} total reviews across {companyData.reviews.length} platforms with an average rating of {(companyData.reviews.reduce((sum, r) => sum + r.rating, 0) / companyData.reviews.length).toFixed(1)} out of 5 stars. 
+                      The reviews indicate {
+                        (companyData.reviews.reduce((sum, r) => sum + r.rating, 0) / companyData.reviews.length) >= 4 
+                          ? "strong customer satisfaction and positive experiences" 
+                          : (companyData.reviews.reduce((sum, r) => sum + r.rating, 0) / companyData.reviews.length) >= 3 
+                            ? "generally positive customer feedback with room for improvement"
+                            : "mixed customer experiences requiring attention"
+                      }.
+                    </p>
+                  </div>
+                </Card>
 
                   {/* LLM Analysis */}
                   <Card>
@@ -2654,6 +2699,77 @@ export default function BusinessVerificationAgent() {
                     </CardContent>
                   </Card>
                 </div>
+              ) : (
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Star className="h-5 w-5" />
+                      Customer Reviews & Ratings
+                    </CardTitle>
+                    <CardDescription>
+                      Aggregated reviews from multiple platforms
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-6">
+                      {/* Overall Rating Summary */}
+                      <div className="p-6 bg-gradient-to-br from-primary/10 to-accent/10 rounded-lg border-2 border-primary/20">
+                        <div className="text-center mb-6">
+                          <div className="text-5xl font-bold text-primary mb-2">
+                            {(companyData.reviews.reduce((sum, r) => sum + r.rating, 0) / companyData.reviews.length).toFixed(1)}
+                          </div>
+                          <div className="flex items-center justify-center gap-1 mb-2">
+                            {[1, 2, 3, 4, 5].map((star) => (
+                              <Star 
+                                key={star} 
+                                className={`h-6 w-6 ${star <= Math.round(companyData.reviews.reduce((sum, r) => sum + r.rating, 0) / companyData.reviews.length) ? "fill-accent text-accent" : "text-muted"}`} 
+                              />
+                            ))}
+                          </div>
+                          <div className="text-sm text-muted-foreground">
+                            Based on {companyData.reviews.reduce((sum, r) => sum + r.count, 0)} total reviews
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Platform Breakdown */}
+                      <div>
+                        <h3 className="font-semibold mb-4">Reviews by Platform</h3>
+                        <div className="space-y-4">
+                          {companyData.reviews.map((review, index) => (
+                            <div key={index} className="p-4 border rounded-lg hover:bg-secondary/50 transition-colors">
+                              <div className="flex items-center justify-between mb-3">
+                                <div className="flex items-center gap-2">
+                                  <h4 className="font-semibold">{review.source}</h4>
+                                  <Badge variant="outline">{review.count} reviews</Badge>
+                                </div>
+                                <div className="flex items-center gap-1">
+                                  {[1, 2, 3, 4, 5].map((star) => (
+                                    <Star 
+                                      key={star} 
+                                      className={`h-4 w-4 ${star <= Math.round(review.rating) ? "fill-accent text-accent" : "text-muted"}`} 
+                                    />
+                                  ))}
+                                  <span className="ml-2 font-bold">{review.rating.toFixed(1)}</span>
+                                </div>
+                              </div>
+                              <a
+                                href={review.link}
+                                className="text-sm text-primary hover:underline flex items-center gap-1"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                View reviews
+                                <ExternalLink className="h-3 w-3" />
+                              </a>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
             </TabsContent>
 
           </Tabs>
