@@ -1456,44 +1456,59 @@ export default function BusinessVerificationAgent() {
   const getStepIcon = (status: string) => {
     switch (status) {
       case "completed":
-        return <CheckCircle className="h-4 w-4 text-green-500" />
+        return <CheckCircle className="h-4 w-4 text-primary" />
       case "processing":
-        return <Loader2 className="h-4 w-4 text-blue-500 animate-spin" />
+        return <Loader2 className="h-4 w-4 text-accent animate-spin" />
       case "skipped":
-        return <AlertCircle className="h-4 w-4 text-yellow-500" />
+        return <AlertCircle className="h-4 w-4 text-muted-foreground" />
       default:
-        return <div className="h-4 w-4 rounded-full border-2 border-gray-300" />
+        return <div className="h-4 w-4 rounded-full border-2 border-muted" />
     }
   }
 
   const getScoreColor = (score: number) => {
-    if (score >= 80) return "text-green-600"
-    if (score >= 60) return "text-yellow-600"
-    return "text-red-600"
+    if (score >= 80) return "text-primary"
+    if (score >= 60) return "text-accent"
+    return "text-destructive"
   }
 
   const getScoreBadge = (score: number) => {
-    if (score >= 80) return { text: "High Trust", variant: "default" as const }
-    if (score >= 60) return { text: "Medium Trust", variant: "secondary" as const }
-    return { text: "Low Trust", variant: "destructive" as const }
+    if (score >= 80) return { children: "High Trust", variant: "default" as const }
+    if (score >= 60) return { children: "Medium Trust", variant: "secondary" as const }
+    return { children: "Low Trust", variant: "destructive" as const }
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50 p-4">
       <div className="mx-auto max-w-6xl space-y-6">
-        {/* Header */}
-        <div className="text-center space-y-2">
-          <h1 className="text-4xl font-bold text-gray-900">Multi-Agent Business Verification System</h1>
-          <p className="text-lg text-gray-600">Two AI agents working together: Business Verification & Purpose Analysis</p>
-          <div className="flex items-center justify-center gap-6 mt-4">
-            <div className="flex items-center gap-2">
-              <Bot className="h-5 w-5 text-blue-600" />
-              <span className="text-sm font-medium">Verification Agent</span>
+        {/* NatWest Header */}
+        <div className="text-center space-y-4 bg-white rounded-lg p-8 shadow-sm border-t-4 border-primary">
+          <div className="flex items-center justify-center gap-3 mb-2">
+            <div className="h-12 w-12 bg-primary rounded-full flex items-center justify-center">
+              <Building2 className="h-6 w-6 text-white" />
             </div>
-            <Network className="h-5 w-5 text-gray-400" />
+            <h1 className="text-4xl font-bold text-primary">Business Verification</h1>
+          </div>
+          <p className="text-lg text-muted-foreground">Intelligent multi-agent verification powered by NatWest</p>
+          <div className="flex items-center justify-center gap-8 mt-6 p-4 bg-secondary/50 rounded-lg">
             <div className="flex items-center gap-2">
-              <Target className="h-5 w-5 text-purple-600" />
-              <span className="text-sm font-medium">Purpose Agent</span>
+              <div className="h-10 w-10 bg-primary rounded-full flex items-center justify-center">
+                <Bot className="h-5 w-5 text-white" />
+              </div>
+              <div className="text-left">
+                <div className="text-sm font-semibold text-primary">Verification Agent</div>
+                <div className="text-xs text-muted-foreground">Identity & Compliance</div>
+              </div>
+            </div>
+            <Network className="h-6 w-6 text-accent" />
+            <div className="flex items-center gap-2">
+              <div className="h-10 w-10 bg-accent rounded-full flex items-center justify-center">
+                <Target className="h-5 w-5 text-white" />
+              </div>
+              <div className="text-left">
+                <div className="text-sm font-semibold text-accent">Purpose Agent</div>
+                <div className="text-xs text-muted-foreground">Business Analysis</div>
+              </div>
             </div>
           </div>
         </div>
@@ -1614,12 +1629,20 @@ export default function BusinessVerificationAgent() {
         {verificationSteps.length > 0 && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {agents.map((agent, idx) => (
-              <Card key={idx} className={`border-2 ${agent.status === "active" ? idx === 0 ? "border-blue-500 shadow-lg" : "border-purple-500 shadow-lg" : "border-gray-200"}`}>
+              <Card key={idx} className={`border-2 ${agent.status === "active" ? idx === 0 ? "border-primary shadow-lg bg-primary/5" : "border-accent shadow-lg bg-accent/5" : "border-border"}`}>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2 text-lg">
-                    {idx === 0 ? <Bot className="h-5 w-5 text-blue-600" /> : <Target className="h-5 w-5 text-purple-600" />}
-                    {agent.name}
-                    {agent.status === "active" && <Zap className="h-4 w-4 text-yellow-500 animate-pulse" />}
+                    {idx === 0 ? (
+                      <div className="h-8 w-8 bg-primary rounded-full flex items-center justify-center">
+                        <Bot className="h-4 w-4 text-white" />
+                      </div>
+                    ) : (
+                      <div className="h-8 w-8 bg-accent rounded-full flex items-center justify-center">
+                        <Target className="h-4 w-4 text-white" />
+                      </div>
+                    )}
+                    <span className={idx === 0 ? "text-primary" : "text-accent"}>{agent.name}</span>
+                    {agent.status === "active" && <Zap className="h-4 w-4 text-accent animate-pulse" />}
                   </CardTitle>
                   <CardDescription>{agent.currentTask}</CardDescription>
                 </CardHeader>
@@ -1658,16 +1681,16 @@ export default function BusinessVerificationAgent() {
             <CardContent>
               <div className="space-y-3">
                 {verificationSteps.map((step, index) => (
-                  <div key={step.id} className={`flex items-center gap-3 p-3 rounded-lg ${step.agent === "verification" ? "bg-blue-50" : "bg-purple-50"}`}>
+                  <div key={step.id} className={`flex items-center gap-3 p-3 rounded-lg border ${step.agent === "verification" ? "bg-primary/5 border-primary/20" : "bg-accent/5 border-accent/20"}`}>
                     {getStepIcon(step.status)}
                     <div className="flex-1">
                       <div className="flex items-center gap-2">
                         <span className="font-medium">{step.name}</span>
-                        <Badge variant="outline" className="text-xs">
+                        <Badge variant="outline" className={`text-xs ${step.agent === "verification" ? "border-primary text-primary" : "border-accent text-accent"}`}>
                           {step.agent === "verification" ? "Verification Agent" : "Purpose Agent"}
                         </Badge>
                       </div>
-                      {step.result && <div className="text-sm text-gray-600">{step.result}</div>}
+                      {step.result && <div className="text-sm text-muted-foreground">{step.result}</div>}
                     </div>
                   </div>
                 ))}
@@ -1735,10 +1758,10 @@ export default function BusinessVerificationAgent() {
               <div className="space-y-6">
                 {/* Overall Trust Score */}
                 {companyData.businessPurpose && (
-                  <Card className="border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-purple-50">
+                  <Card className="border-2 border-primary bg-gradient-to-br from-primary/10 via-white to-accent/10">
                     <CardHeader>
-                      <CardTitle className="flex items-center gap-2">
-                        <Zap className="h-6 w-6 text-blue-600" />
+                      <CardTitle className="flex items-center gap-2 text-primary">
+                        <Zap className="h-6 w-6" />
                         Comprehensive Trust Analysis
                       </CardTitle>
                       <CardDescription>Combined insights from both verification and purpose analysis agents</CardDescription>
@@ -1839,7 +1862,7 @@ export default function BusinessVerificationAgent() {
                     <CardContent>
                       <div className="space-y-4">
                         {companyData.businessPurpose.sicCodes.map((sic, index) => (
-                          <div key={index} className={`p-4 rounded-lg border-2 ${index === 0 ? "bg-blue-50 border-blue-300" : "bg-gray-50 border-gray-200"}`}>
+                          <div key={index} className={`p-4 rounded-lg border-2 ${index === 0 ? "bg-primary/5 border-primary" : "bg-secondary border-border"}`}>
                             <div className="flex items-center justify-between mb-2">
                               <div className="flex items-center gap-3">
                                 <Badge variant={index === 0 ? "default" : "secondary"} className="text-lg px-3 py-1">
@@ -1907,9 +1930,9 @@ export default function BusinessVerificationAgent() {
                         ))}
                       </div>
 
-                      <div className="mt-6 p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg border-2 border-blue-200">
+                      <div className="mt-6 p-4 bg-gradient-to-r from-primary/10 to-accent/10 rounded-lg border-2 border-primary">
                         <div className="flex items-center justify-between">
-                          <span className="text-lg font-semibold">Overall Trust Score</span>
+                          <span className="text-lg font-semibold text-primary">Overall Trust Score</span>
                           <div className="text-right">
                             <div className={`text-3xl font-bold ${getScoreColor(companyData.businessPurpose.overallTrustScore)}`}>
                               {companyData.businessPurpose.overallTrustScore}/100
@@ -1934,11 +1957,11 @@ export default function BusinessVerificationAgent() {
                     </CardHeader>
                     <CardContent>
                       <div className="space-y-4">
-                        <div className="text-center p-6 bg-gradient-to-br from-green-50 to-blue-50 rounded-lg">
+                        <div className="text-center p-6 bg-gradient-to-br from-primary/10 to-accent/10 rounded-lg border border-primary/20">
                           <div className={`text-6xl font-bold mb-2 ${getScoreColor(companyData.businessPurpose.industryAlignment)}`}>
                             {companyData.businessPurpose.industryAlignment}%
                           </div>
-                          <p className="text-gray-600">Alignment Score</p>
+                          <p className="text-muted-foreground font-medium">Alignment Score</p>
                         </div>
                         <Progress value={companyData.businessPurpose.industryAlignment} className="h-4" />
                         <p className="text-sm text-gray-600 text-center">
