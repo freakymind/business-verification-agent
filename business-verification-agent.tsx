@@ -1479,44 +1479,44 @@ export default function BusinessVerificationAgent() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50 p-4">
-      <div className="mx-auto max-w-6xl space-y-6">
-        {/* NatWest Header */}
-        <div className="text-center space-y-4 bg-white rounded-lg p-8 shadow-sm border-t-4 border-primary">
-          <div className="flex items-center justify-center gap-3 mb-2">
-            <div className="h-12 w-12 bg-primary rounded-full flex items-center justify-center">
-              <Building2 className="h-6 w-6 text-white" />
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50 p-3">
+      <div className="mx-auto max-w-6xl space-y-3">
+        {/* Compact NatWest Header */}
+        <div className="text-center bg-white rounded-lg p-4 shadow-sm border-t-4 border-primary">
+          <div className="flex items-center justify-center gap-2 mb-2">
+            <div className="h-8 w-8 bg-primary rounded-full flex items-center justify-center">
+              <Building2 className="h-4 w-4 text-white" />
             </div>
-            <h1 className="text-4xl font-bold text-primary">Business Verification</h1>
+            <h1 className="text-2xl font-bold text-primary">Business Verification</h1>
           </div>
-          <p className="text-lg text-muted-foreground">Intelligent multi-agent verification powered by NatWest</p>
-          <div className="flex items-center justify-center gap-8 mt-6 p-4 bg-secondary/50 rounded-lg">
-            <div className="flex items-center gap-2">
-              <div className="h-10 w-10 bg-primary rounded-full flex items-center justify-center">
-                <Bot className="h-5 w-5 text-white" />
+          <p className="text-sm text-muted-foreground mb-3">Intelligent multi-agent verification powered by NatWest</p>
+          <div className="flex items-center justify-center gap-4 p-2 bg-secondary/50 rounded">
+            <div className="flex items-center gap-1.5">
+              <div className="h-6 w-6 bg-primary rounded-full flex items-center justify-center">
+                <Bot className="h-3 w-3 text-white" />
               </div>
               <div className="text-left">
-                <div className="text-sm font-semibold text-primary">Verification Agent</div>
-                <div className="text-xs text-muted-foreground">Identity & Compliance</div>
+                <div className="text-xs font-semibold text-primary">Verification Agent</div>
+                <div className="text-[10px] text-muted-foreground">Identity & Compliance</div>
               </div>
             </div>
-            <Network className="h-6 w-6 text-accent" />
-            <div className="flex items-center gap-2">
-              <div className="h-10 w-10 bg-accent rounded-full flex items-center justify-center">
-                <Target className="h-5 w-5 text-white" />
+            <Network className="h-4 w-4 text-accent" />
+            <div className="flex items-center gap-1.5">
+              <div className="h-6 w-6 bg-accent rounded-full flex items-center justify-center">
+                <Target className="h-3 w-3 text-white" />
               </div>
               <div className="text-left">
-                <div className="text-sm font-semibold text-accent">Purpose Agent</div>
-                <div className="text-xs text-muted-foreground">Business Analysis</div>
+                <div className="text-xs font-semibold text-accent">Purpose Agent</div>
+                <div className="text-[10px] text-muted-foreground">Business Analysis</div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Input Form */}
+        {/* Compact Input Form */}
         <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
+          <CardHeader className="py-3">
+            <CardTitle className="flex items-center gap-2 text-base">
               <Search className="h-5 w-5" />
               Business Information
             </CardTitle>
@@ -1625,36 +1625,36 @@ export default function BusinessVerificationAgent() {
           </CardContent>
         </Card>
 
-        {/* Compact Horizontal Agent Workflow */}
+        {/* Ultra-Compact Agent Workflow */}
         {verificationSteps.length > 0 && (
           <Card className="border-primary/20">
-            <CardHeader className="pb-3">
+            <CardHeader className="py-2 px-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <Activity className="h-5 w-5 text-primary" />
-                  <CardTitle className="text-lg">Agent Workflow Progress</CardTitle>
+                  <Activity className="h-4 w-4 text-primary" />
+                  <CardTitle className="text-sm">Workflow Progress</CardTitle>
                 </div>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2">
                   {agents.map((agent, idx) => (
-                    <div key={idx} className="flex items-center gap-2">
-                      <div className={`h-3 w-3 rounded-full ${agent.status === "active" ? "bg-accent animate-pulse" : agent.status === "completed" ? "bg-primary" : "bg-muted"}`} />
-                      <span className="text-xs font-medium">{agent.name}</span>
+                    <div key={idx} className="flex items-center gap-1">
+                      <div className={`h-2 w-2 rounded-full ${agent.status === "active" ? "bg-accent animate-pulse" : agent.status === "completed" ? "bg-primary" : "bg-muted"}`} />
+                      <span className="text-[10px] font-medium">{agent.name}</span>
                     </div>
                   ))}
                 </div>
               </div>
             </CardHeader>
-            <CardContent>
-              <div className="flex flex-wrap gap-2">
+            <CardContent className="py-2 px-4">
+              <div className="flex flex-wrap gap-1.5">
                 {verificationSteps.map((step, index) => (
-                  <div key={step.id} className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-sm border ${
+                  <div key={step.id} className={`flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] border ${
                     step.status === "completed" ? "bg-primary/10 border-primary text-primary" : 
                     step.status === "processing" ? "bg-accent/10 border-accent text-accent animate-pulse" : 
                     step.status === "skipped" ? "bg-muted border-muted-foreground/20 text-muted-foreground" :
                     "bg-background border-border text-muted-foreground"
                   }`}>
                     {getStepIcon(step.status)}
-                    <span className="text-xs font-medium">{step.name}</span>
+                    <span className="font-medium">{step.name}</span>
                   </div>
                 ))}
               </div>
@@ -1664,7 +1664,7 @@ export default function BusinessVerificationAgent() {
 
         {/* Results */}
         {companyData && (
-          <Tabs defaultValue="summary" className="space-y-6">
+          <Tabs defaultValue="summary" className="space-y-3">
             {/* Unified TabsList for all business types */}
             <TabsList className="grid w-full grid-cols-6">
               <TabsTrigger value="summary">Summary</TabsTrigger>
@@ -1675,156 +1675,167 @@ export default function BusinessVerificationAgent() {
               <TabsTrigger value="purpose">Business Purpose</TabsTrigger>
             </TabsList>
 
-            {/* Summary Tab - Comprehensive Final Summary */}
+            {/* Summary Tab - Compact Comprehensive Summary */}
             <TabsContent value="summary">
-              <div className="space-y-6">
+              <div className="space-y-4">
                 {companyData.businessPurpose && (
                   <>
-                    {/* Business Overview */}
+                    {/* Compact Business Overview */}
                     <Card className="border-2 border-primary">
-                      <CardHeader className="bg-gradient-to-r from-primary/10 to-accent/10">
-                        <CardTitle className="flex items-center gap-2 text-primary">
-                          <FileText className="h-6 w-6" />
-                          Verification Summary
-                        </CardTitle>
-                        <CardDescription>Comprehensive analysis based on data gathered from multiple sources</CardDescription>
+                      <CardHeader className="pb-3 bg-gradient-to-r from-primary/10 to-accent/10">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                            <FileText className="h-5 w-5 text-primary" />
+                            <CardTitle className="text-lg">Verification Summary</CardTitle>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Badge variant="default" className="flex items-center gap-1">
+                              <CheckCircle className="h-3 w-3" />
+                              Verified
+                            </Badge>
+                          </div>
+                        </div>
                       </CardHeader>
-                      <CardContent className="pt-6">
-                        <div className="space-y-6">
-                          {/* Business Identity */}
-                          <div>
-                            <h3 className="text-lg font-semibold text-primary mb-4">Business Identity</h3>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                              <div className="p-4 bg-secondary/50 rounded-lg">
-                                <div className="text-sm text-muted-foreground mb-1">Business Name</div>
-                                <div className="font-semibold">{companyData.name}</div>
+                      <CardContent className="pt-4">
+                        <div className="space-y-4">
+                          {/* Compact Identity Grid */}
+                          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                            <div className="p-2 bg-secondary/30 rounded">
+                              <div className="text-xs text-muted-foreground">Name</div>
+                              <div className="font-semibold text-sm truncate">{companyData.name}</div>
+                            </div>
+                            <div className="p-2 bg-secondary/30 rounded">
+                              <div className="text-xs text-muted-foreground">Type</div>
+                              <div className="font-semibold text-sm">{companyData.type}</div>
+                            </div>
+                            {companyData.registrationNumber && (
+                              <div className="p-2 bg-secondary/30 rounded">
+                                <div className="text-xs text-muted-foreground">Registration</div>
+                                <div className="font-semibold text-sm">{companyData.registrationNumber}</div>
                               </div>
-                              <div className="p-4 bg-secondary/50 rounded-lg">
-                                <div className="text-sm text-muted-foreground mb-1">Business Type</div>
-                                <div className="font-semibold">{companyData.type}</div>
-                              </div>
-                              {companyData.registrationNumber && (
-                                <div className="p-4 bg-secondary/50 rounded-lg">
-                                  <div className="text-sm text-muted-foreground mb-1">Registration Number</div>
-                                  <div className="font-semibold">{companyData.registrationNumber}</div>
-                                </div>
-                              )}
-                              <div className="p-4 bg-secondary/50 rounded-lg">
-                                <div className="text-sm text-muted-foreground mb-1">Primary Activity</div>
-                                <div className="font-semibold">{companyData.businessPurpose.primaryActivity}</div>
-                              </div>
+                            )}
+                            <div className="p-2 bg-secondary/30 rounded">
+                              <div className="text-xs text-muted-foreground">Industry</div>
+                              <div className="font-semibold text-sm truncate">{companyData.businessPurpose.primaryActivity}</div>
                             </div>
                           </div>
 
-                          {/* Verification Status */}
-                          <div>
-                            <h3 className="text-lg font-semibold text-primary mb-4">Verification Status</h3>
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                              <div className="text-center p-4 bg-white rounded-lg border-2 border-primary/20">
-                                {companyData.type === "Sole Trader" ? (
-                                  <AlertCircle className="h-10 w-10 text-muted-foreground mx-auto mb-2" />
-                                ) : (
-                                  <CheckCircle className="h-10 w-10 text-primary mx-auto mb-2" />
-                                )}
-                                <div className="font-semibold text-sm mb-1">Companies House</div>
-                                <Badge variant={companyData.type === "Sole Trader" ? "secondary" : "default"}>
-                                  {companyData.type === "Sole Trader" ? "N/A" : "Verified"}
-                                </Badge>
-                              </div>
-                              <div className="text-center p-4 bg-white rounded-lg border-2 border-primary/20">
-                                <CheckCircle className="h-10 w-10 text-primary mx-auto mb-2" />
-                                <div className="font-semibold text-sm mb-1">Address Verified</div>
-                                <Badge variant="default">Confirmed</Badge>
-                              </div>
-                              <div className="text-center p-4 bg-white rounded-lg border-2 border-primary/20">
-                                <CheckCircle className="h-10 w-10 text-primary mx-auto mb-2" />
-                                <div className="font-semibold text-sm mb-1">Online Presence</div>
-                                <Badge variant="default">Active</Badge>
-                              </div>
-                            </div>
+                          {/* Compact Verification Status */}
+                          <div className="flex items-center gap-2 flex-wrap">
+                            {companyData.type !== "Sole Trader" && (
+                              <Badge variant="outline" className="flex items-center gap-1">
+                                <CheckCircle className="h-3 w-3 text-primary" />
+                                Companies House
+                              </Badge>
+                            )}
+                            <Badge variant="outline" className="flex items-center gap-1">
+                              <CheckCircle className="h-3 w-3 text-primary" />
+                              Address Verified
+                            </Badge>
+                            <Badge variant="outline" className="flex items-center gap-1">
+                              <CheckCircle className="h-3 w-3 text-primary" />
+                              Online Presence
+                            </Badge>
+                            <Badge variant="outline" className="flex items-center gap-1">
+                              <Star className="h-3 w-3 text-primary" />
+                              {companyData.reviews.reduce((sum, r) => sum + r.count, 0)} Reviews
+                            </Badge>
                           </div>
 
-                          {/* Data Sources Summary */}
-                          <div>
-                            <h3 className="text-lg font-semibold text-primary mb-4">Data Sources</h3>
-                            <div className="space-y-3">
-                              {!companyData.type.includes("Sole Trader") && (
-                                <div className="flex items-center justify-between p-3 bg-primary/5 rounded-lg border border-primary/20">
-                                  <div className="flex items-center gap-3">
-                                    <Building2 className="h-5 w-5 text-primary" />
-                                    <div>
-                                      <div className="font-medium">Companies House</div>
-                                      <div className="text-xs text-muted-foreground">Registration, SIC codes, and company details verified</div>
-                                    </div>
-                                  </div>
-                                  <CheckCircle className="h-5 w-5 text-primary" />
-                                </div>
-                              )}
-                              <div className="flex items-center justify-between p-3 bg-primary/5 rounded-lg border border-primary/20">
-                                <div className="flex items-center gap-3">
-                                  <MapPin className="h-5 w-5 text-primary" />
-                                  <div>
-                                    <div className="font-medium">Google Maps</div>
-                                    <div className="text-xs text-muted-foreground">Business address and location verified</div>
-                                  </div>
-                                </div>
-                                <CheckCircle className="h-5 w-5 text-primary" />
+                          {/* AI Credibility Analysis */}
+                          {companyData.soleTraderVerification?.llmAnalysis && (
+                            <div className="p-4 bg-gradient-to-br from-accent/10 to-primary/10 rounded-lg border-2 border-accent">
+                              <div className="flex items-center gap-2 mb-3">
+                                <Brain className="h-5 w-5 text-accent" />
+                                <h3 className="font-semibold text-accent">AI Credibility Analysis</h3>
                               </div>
-                              <div className="flex items-center justify-between p-3 bg-primary/5 rounded-lg border border-primary/20">
-                                <div className="flex items-center gap-3">
-                                  <Globe className="h-5 w-5 text-primary" />
-                                  <div>
-                                    <div className="font-medium">Web Search & Directories</div>
-                                    <div className="text-xs text-muted-foreground">Online presence verified across multiple platforms</div>
-                                  </div>
-                                </div>
-                                <CheckCircle className="h-5 w-5 text-primary" />
-                              </div>
-                              <div className="flex items-center justify-between p-3 bg-primary/5 rounded-lg border border-primary/20">
-                                <div className="flex items-center gap-3">
-                                  <Star className="h-5 w-5 text-primary" />
-                                  <div>
-                                    <div className="font-medium">Review Platforms</div>
-                                    <div className="text-xs text-muted-foreground">{companyData.reviews.reduce((sum, r) => sum + r.count, 0)} total reviews analyzed</div>
-                                  </div>
-                                </div>
-                                <CheckCircle className="h-5 w-5 text-primary" />
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Key Findings */}
-                          <div>
-                            <h3 className="text-lg font-semibold text-primary mb-4">Key Findings</h3>
-                            <div className="space-y-3">
-                              {companyData.businessPurpose.businessInsights.map((insight, index) => (
-                                <div key={index} className="flex items-start gap-3 p-3 bg-white rounded-lg border">
-                                  <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-                                  <span className="text-sm">{insight}</span>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-
-                          {/* Observations */}
-                          {companyData.riskFactors.length > 0 && companyData.riskFactors[0] !== "No major concerns identified" && (
-                            <div>
-                              <h3 className="text-lg font-semibold text-accent mb-4">Observations</h3>
-                              <div className="space-y-3">
-                                {companyData.riskFactors.map((risk, index) => (
-                                  <div key={index} className="flex items-start gap-3 p-3 bg-accent/5 rounded-lg border border-accent/20">
-                                    <AlertCircle className="h-5 w-5 text-accent mt-0.5 flex-shrink-0" />
-                                    <span className="text-sm">{risk}</span>
+                              <p className="text-sm leading-relaxed mb-3">
+                                {companyData.soleTraderVerification.llmAnalysis.summary}
+                              </p>
+                              <div className="grid grid-cols-2 gap-2">
+                                {companyData.soleTraderVerification.llmAnalysis.keyPoints.map((point, index) => (
+                                  <div key={index} className="flex items-start gap-2 text-xs">
+                                    <CheckCircle className="h-3 w-3 text-accent mt-0.5 flex-shrink-0" />
+                                    <span>{point}</span>
                                   </div>
                                 ))}
                               </div>
                             </div>
                           )}
 
-                          {/* Final Assessment */}
-                          <div className="p-6 bg-gradient-to-br from-primary/10 via-white to-accent/10 rounded-lg border-2 border-primary">
-                            <h3 className="text-lg font-semibold text-primary mb-3">Final Assessment</h3>
-                            <p className="text-sm leading-relaxed">
+                          {/* Compact Data Sources */}
+                          <div>
+                            <h3 className="text-sm font-semibold text-muted-foreground mb-2">Data Sources</h3>
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                              {!companyData.type.includes("Sole Trader") && (
+                                <div className="flex items-center gap-2 p-2 bg-primary/5 rounded">
+                                  <Building2 className="h-4 w-4 text-primary" />
+                                  <div className="flex-1 min-w-0">
+                                    <div className="text-xs font-medium truncate">Companies House</div>
+                                  </div>
+                                  <CheckCircle className="h-3 w-3 text-primary flex-shrink-0" />
+                                </div>
+                              )}
+                              <div className="flex items-center gap-2 p-2 bg-primary/5 rounded">
+                                <MapPin className="h-4 w-4 text-primary" />
+                                <div className="flex-1 min-w-0">
+                                  <div className="text-xs font-medium truncate">Google Maps</div>
+                                </div>
+                                <CheckCircle className="h-3 w-3 text-primary flex-shrink-0" />
+                              </div>
+                              <div className="flex items-center gap-2 p-2 bg-primary/5 rounded">
+                                <Globe className="h-4 w-4 text-primary" />
+                                <div className="flex-1 min-w-0">
+                                  <div className="text-xs font-medium truncate">Web Search</div>
+                                </div>
+                                <CheckCircle className="h-3 w-3 text-primary flex-shrink-0" />
+                              </div>
+                              <div className="flex items-center gap-2 p-2 bg-primary/5 rounded">
+                                <Star className="h-4 w-4 text-primary" />
+                                <div className="flex-1 min-w-0">
+                                  <div className="text-xs font-medium truncate">Reviews</div>
+                                </div>
+                                <CheckCircle className="h-3 w-3 text-primary flex-shrink-0" />
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Compact Key Findings & Observations */}
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div>
+                              <h3 className="text-sm font-semibold text-primary mb-2">Key Findings</h3>
+                              <div className="space-y-1.5">
+                                {companyData.businessPurpose.businessInsights.map((insight, index) => (
+                                  <div key={index} className="flex items-start gap-2 p-2 bg-white rounded border text-xs">
+                                    <CheckCircle className="h-3 w-3 text-primary mt-0.5 flex-shrink-0" />
+                                    <span>{insight}</span>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+
+                            {companyData.riskFactors.length > 0 && companyData.riskFactors[0] !== "No major concerns identified" && (
+                              <div>
+                                <h3 className="text-sm font-semibold text-accent mb-2">Observations</h3>
+                                <div className="space-y-1.5">
+                                  {companyData.riskFactors.map((risk, index) => (
+                                    <div key={index} className="flex items-start gap-2 p-2 bg-accent/5 rounded border border-accent/20 text-xs">
+                                      <AlertCircle className="h-3 w-3 text-accent mt-0.5 flex-shrink-0" />
+                                      <span>{risk}</span>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+                          </div>
+
+                          {/* Compact Final Assessment */}
+                          <div className="p-4 bg-gradient-to-br from-primary/10 via-white to-accent/10 rounded-lg border-2 border-primary">
+                            <h3 className="text-sm font-semibold text-primary mb-2 flex items-center gap-2">
+                              <Brain className="h-4 w-4" />
+                              Final Assessment
+                            </h3>
+                            <p className="text-xs leading-relaxed">
                               Based on comprehensive verification across multiple data sources including {companyData.type === "Sole Trader" ? "web search, online directories" : "Companies House, web search, online directories"}, Google Maps, and review platforms, this business has been identified and verified. 
                               The business operates as <strong>{companyData.businessPurpose.primaryActivity.toLowerCase()}</strong> with {companyData.businessPurpose.sicCodes.length} registered SIC code(s). 
                               Address verification confirms the business location at {companyData.address}. 
