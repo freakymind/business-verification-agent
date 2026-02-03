@@ -2244,6 +2244,72 @@ export default function BusinessVerificationAgent() {
                           </div>
                         ))}
                       </div>
+
+                      {/* Review Summary */}
+                      <div className="p-4 bg-secondary/50 rounded-lg mt-4">
+                        <h3 className="font-semibold mb-2">Review Summary</h3>
+                        <p className="text-sm text-muted-foreground leading-relaxed">
+                          This business has received {companyData.reviews.reduce((sum, r) => sum + r.count, 0)} total reviews across {companyData.reviews.length} platforms with an average rating of {(companyData.reviews.reduce((sum, r) => sum + r.rating, 0) / companyData.reviews.length).toFixed(1)} out of 5 stars. 
+                          The reviews indicate {
+                            (companyData.reviews.reduce((sum, r) => sum + r.rating, 0) / companyData.reviews.length) >= 4 
+                              ? "strong customer satisfaction and positive experiences" 
+                              : (companyData.reviews.reduce((sum, r) => sum + r.rating, 0) / companyData.reviews.length) >= 3 
+                                ? "generally positive customer feedback with room for improvement"
+                                : "mixed customer experiences requiring attention"
+                          }.
+                        </p>
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="flex items-center gap-2">
+                        <FileSearch className="h-5 w-5" />
+                        Google Search Results
+                      </CardTitle>
+                      <CardDescription>
+                        Top search results for this business
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-4">
+                        {companyData.reviews.map((review, index) => (
+                          <div key={index} className="p-4 border-2 rounded-lg bg-white hover:shadow-md transition-shadow">
+                            <div className="flex items-center justify-between mb-3">
+                              <div className="flex items-center gap-3">
+                                <div className="h-10 w-10 bg-primary rounded-full flex items-center justify-center">
+                                  <Star className="h-5 w-5 text-white fill-white" />
+                                </div>
+                                <div>
+                                  <div className="font-semibold">{review.source}</div>
+                                  <div className="text-xs text-muted-foreground">{review.count} reviews</div>
+                                </div>
+                              </div>
+                              <div className="text-right">
+                                <div className="text-2xl font-bold text-primary">{review.rating}</div>
+                                <div className="flex items-center gap-0.5">
+                                  {[1, 2, 3, 4, 5].map((star) => (
+                                    <Star 
+                                      key={star} 
+                                      className={`h-3 w-3 ${star <= Math.round(review.rating) ? "fill-accent text-accent" : "text-muted"}`} 
+                                    />
+                                  ))}
+                                </div>
+                              </div>
+                            </div>
+                            <a
+                              href={review.link}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-sm text-primary hover:underline flex items-center gap-1"
+                            >
+                              View all reviews on {review.source}
+                              <ExternalLink className="h-3 w-3" />
+                            </a>
+                          </div>
+                        ))}
+                      </div>
                     </div>
 
                     {/* Review Summary */}
@@ -2262,8 +2328,14 @@ export default function BusinessVerificationAgent() {
                     </div>
                   </CardContent>
                 </Card>
+            </TabsContent>
 
-                  {/* AI Credibility Analysis */}
+          </Tabs>
+        )}
+      </div>
+    </div>
+  )
+}
                   <Card>
                     <CardHeader>
                       <CardTitle className="flex items-center gap-2">
