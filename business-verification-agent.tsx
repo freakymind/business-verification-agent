@@ -2233,8 +2233,7 @@ export default function BusinessVerificationAgent() {
 
             {/* Reviews Tab (Updated for unified view) */}
             <TabsContent value="reviews">
-              {companyData.soleTraderVerification ? (
-                <div className="space-y-6">
+              <div className="space-y-6">
                   {/* Google Search Results */}
                   <Card>
                     <CardHeader>
@@ -2695,8 +2694,7 @@ export default function BusinessVerificationAgent() {
                     </CardContent>
                   </Card>
                 </div>
-              </TabsContent>
-            )}
+            </TabsContent>
 
           </Tabs>
         )}
