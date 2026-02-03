@@ -1752,14 +1752,16 @@ export default function BusinessVerificationAgent() {
                               <p className="text-sm leading-relaxed mb-3">
                                 {companyData.soleTraderVerification.llmAnalysis.summary}
                               </p>
-                              <div className="grid grid-cols-2 gap-2">
-                                {companyData.soleTraderVerification.llmAnalysis.keyPoints.map((point, index) => (
-                                  <div key={index} className="flex items-start gap-2 text-xs">
-                                    <CheckCircle className="h-3 w-3 text-accent mt-0.5 flex-shrink-0" />
-                                    <span>{point}</span>
-                                  </div>
-                                ))}
-                              </div>
+                              {companyData.soleTraderVerification.llmAnalysis.keyPoints && companyData.soleTraderVerification.llmAnalysis.keyPoints.length > 0 && (
+                                <div className="grid grid-cols-2 gap-2">
+                                  {companyData.soleTraderVerification.llmAnalysis.keyPoints.map((point, index) => (
+                                    <div key={index} className="flex items-start gap-2 text-xs">
+                                      <CheckCircle className="h-3 w-3 text-accent mt-0.5 flex-shrink-0" />
+                                      <span>{point}</span>
+                                    </div>
+                                  ))}
+                                </div>
+                              )}
                             </div>
                           )}
 
@@ -1805,16 +1807,20 @@ export default function BusinessVerificationAgent() {
                             <div>
                               <h3 className="text-sm font-semibold text-primary mb-2">Key Findings</h3>
                               <div className="space-y-1.5">
-                                {companyData.businessPurpose.businessInsights.map((insight, index) => (
-                                  <div key={index} className="flex items-start gap-2 p-2 bg-white rounded border text-xs">
-                                    <CheckCircle className="h-3 w-3 text-primary mt-0.5 flex-shrink-0" />
-                                    <span>{insight}</span>
-                                  </div>
-                                ))}
+                                {companyData.businessPurpose?.businessInsights?.length > 0 ? (
+                                  companyData.businessPurpose.businessInsights.map((insight, index) => (
+                                    <div key={index} className="flex items-start gap-2 p-2 bg-white rounded border text-xs">
+                                      <CheckCircle className="h-3 w-3 text-primary mt-0.5 flex-shrink-0" />
+                                      <span>{insight}</span>
+                                    </div>
+                                  ))
+                                ) : (
+                                  <div className="text-xs text-muted-foreground p-2">No findings available</div>
+                                )}
                               </div>
                             </div>
 
-                            {companyData.riskFactors.length > 0 && companyData.riskFactors[0] !== "No major concerns identified" && (
+                            {companyData.riskFactors?.length > 0 && companyData.riskFactors[0] !== "No major concerns identified" && (
                               <div>
                                 <h3 className="text-sm font-semibold text-accent mb-2">Observations</h3>
                                 <div className="space-y-1.5">
@@ -1837,9 +1843,9 @@ export default function BusinessVerificationAgent() {
                             </h3>
                             <p className="text-xs leading-relaxed">
                               Based on comprehensive verification across multiple data sources including {companyData.type === "Sole Trader" ? "web search, online directories" : "Companies House, web search, online directories"}, Google Maps, and review platforms, this business has been identified and verified. 
-                              The business operates as <strong>{companyData.businessPurpose.primaryActivity.toLowerCase()}</strong> with {companyData.businessPurpose.sicCodes.length} registered SIC code(s). 
+                              The business operates as <strong>{companyData.businessPurpose?.primaryActivity?.toLowerCase() || "various activities"}</strong> with {companyData.businessPurpose?.sicCodes?.length || 0} registered SIC code(s). 
                               Address verification confirms the business location at {companyData.address}. 
-                              Online presence analysis shows the business is {companyData.website ? "actively maintaining a website and " : ""}listed on {companyData.reviews.length} review platform(s) with a total of {companyData.reviews.reduce((sum, r) => sum + r.count, 0)} customer reviews.
+                              Online presence analysis shows the business is {companyData.website ? "actively maintaining a website and " : ""}listed on {companyData.reviews?.length || 0} review platform(s) with a total of {companyData.reviews?.reduce((sum, r) => sum + r.count, 0) || 0} customer reviews.
                               {companyData.regulatoryCompliance && ` Regulatory compliance check indicates ${companyData.regulatoryCompliance.overallComplianceScore}% compliance across ${companyData.regulatoryCompliance.requirements.length} industry-specific requirements.`}
                             </p>
                           </div>
