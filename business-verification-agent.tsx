@@ -2204,9 +2204,9 @@ export default function BusinessVerificationAgent() {
 
             {/* Reviews Tab - Compact Unified View */}
             <TabsContent value="reviews">
-              {companyData.soleTraderVerification?.llmAnalysis ? (
-                <div className="space-y-3">
-                  {/* AI Credibility Analysis - Compact */}
+              <div className="space-y-3">
+                {/* AI Credibility Analysis - Compact */}
+                {companyData.soleTraderVerification?.llmAnalysis && (
                   <Card>
                     <CardHeader className="py-3">
                       <div className="flex items-center justify-between">
@@ -2287,6 +2287,7 @@ export default function BusinessVerificationAgent() {
                       </div>
                     </CardContent>
                   </Card>
+                )}
 
                 {/* Customer Reviews - Compact */}
                 <Card>
