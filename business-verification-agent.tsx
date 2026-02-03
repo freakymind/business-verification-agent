@@ -2202,500 +2202,140 @@ export default function BusinessVerificationAgent() {
               </TabsContent>
             )}
 
-            {/* Reviews Tab (Updated for unified view) */}
+            {/* Reviews Tab - Compact Unified View */}
             <TabsContent value="reviews">
-              {companyData.soleTraderVerification ? (
-                <div className="space-y-6">
-                  {/* AI Credibility Analysis */}
+              {companyData.soleTraderVerification?.llmAnalysis ? (
+                <div className="space-y-3">
+                  {/* AI Credibility Analysis - Compact */}
                   <Card>
-                    <CardHeader>
-                      <CardTitle className="flex items-center gap-2">
-                        <Brain className="h-5 w-5" />
-                        AI Credibility Analysis
-                      </CardTitle>
-                      <CardDescription>
-                        Advanced AI analysis of business credibility and online presence
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="space-y-6">
-                        {/* Credibility Score */}
-                        <div>
-                          <div className="flex items-center justify-between mb-2">
-                            <Label className="text-sm font-medium">Credibility Score</Label>
-                            <span className={`text-2xl font-bold ${getScoreColor(companyData.soleTraderVerification.llmAnalysis.credibilityScore)}`}>
-                              {companyData.soleTraderVerification.llmAnalysis.credibilityScore}/100
-                            </span>
-                          </div>
-                          <Progress value={companyData.soleTraderVerification.llmAnalysis.credibilityScore} className="h-3" />
-                          <div className="flex items-center gap-2 mt-2">
-                            <Badge
-                              variant={
-                                companyData.soleTraderVerification.llmAnalysis.sentiment === "positive"
-                                  ? "default"
-                                  : companyData.soleTraderVerification.llmAnalysis.sentiment === "neutral"
-                                    ? "secondary"
-                                    : "destructive"
-                              }
-                            >
-                              {companyData.soleTraderVerification.llmAnalysis.sentiment.toUpperCase()} SENTIMENT
-                            </Badge>
-                          </div>
+                    <CardHeader className="py-3">
+                      <div className="flex items-center justify-between">
+                        <CardTitle className="flex items-center gap-2 text-base">
+                          <Brain className="h-4 w-4" />
+                          AI Credibility Analysis
+                        </CardTitle>
+                        <div className="flex items-center gap-2">
+                          <Badge className="text-xs">
+                            Score: {companyData.soleTraderVerification.llmAnalysis.credibilityScore}/100
+                          </Badge>
+                          <Badge 
+                            variant={
+                              companyData.soleTraderVerification.llmAnalysis.sentiment === "positive" ? "default" : 
+                              companyData.soleTraderVerification.llmAnalysis.sentiment === "neutral" ? "secondary" : "destructive"
+                            }
+                            className="text-xs"
+                          >
+                            {companyData.soleTraderVerification.llmAnalysis.sentiment}
+                          </Badge>
                         </div>
-
+                      </div>
+                    </CardHeader>
+                    <CardContent className="py-3">
+                      <div className="grid grid-cols-2 gap-3">
                         {/* Insights */}
                         <div>
-                          <h4 className="font-medium mb-3 flex items-center gap-2">
-                            <TrendingUp className="h-4 w-4" />
+                          <h4 className="text-xs font-semibold mb-2 flex items-center gap-1">
+                            <TrendingUp className="h-3 w-3" />
                             Key Insights
                           </h4>
-                          <ul className="space-y-2">
+                          <ul className="space-y-1">
                             {companyData.soleTraderVerification.llmAnalysis.insights.map((insight, index) => (
-                              <li key={index} className="flex items-start gap-2 text-sm">
-                                <CheckCircle className="h-4 w-4 text-blue-500 mt-0.5 flex-shrink-0" />
+                              <li key={index} className="flex items-start gap-1 text-xs">
+                                <CheckCircle className="h-3 w-3 text-primary mt-0.5 flex-shrink-0" />
                                 <span>{insight}</span>
                               </li>
                             ))}
                           </ul>
                         </div>
-
-                        {/* Strengths */}
-                        {companyData.soleTraderVerification.llmAnalysis.strengths.length > 0 && (
-                          <div>
-                            <h4 className="font-medium mb-3 text-green-700 flex items-center gap-2">
-                              <ThumbsUp className="h-4 w-4" />
-                              Strengths
-                            </h4>
-                            <ul className="space-y-2">
-                              {companyData.soleTraderVerification.llmAnalysis.strengths.map((strength, index) => (
-                                <li key={index} className="flex items-start gap-2 text-sm">
-                                  <CheckCircle className="h-4 w-4 text-green-500 mt-0.5 flex-shrink-0" />
-                                  <span>{strength}</span>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        )}
-
-                        {/* Red Flags */}
-                        {companyData.soleTraderVerification.llmAnalysis.redFlags.length > 0 && (
-                          <div>
-                            <h4 className="font-medium mb-3 text-red-700 flex items-center gap-2">
-                              <ShieldAlert className="h-4 w-4" />
-                              Red Flags
-                            </h4>
-                            <ul className="space-y-2">
-                              {companyData.soleTraderVerification.llmAnalysis.redFlags.map((flag, index) => (
-                                <li key={index} className="flex items-start gap-2 text-sm">
-                                  <AlertCircle className="h-4 w-4 text-red-500 mt-0.5 flex-shrink-0" />
-                                  <span>{flag}</span>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        )}
-
-                        {/* Concerns */}
-                        {companyData.soleTraderVerification.llmAnalysis.concerns.length > 0 && (
-                          <div>
-                            <h4 className="font-medium mb-3 text-yellow-700 flex items-center gap-2">
-                              <ThumbsDown className="h-4 w-4" />
-                              Concerns
-                            </h4>
-                            <ul className="space-y-2">
-                              {companyData.soleTraderVerification.llmAnalysis.concerns.map((concern, index) => (
-                                <li key={index} className="flex items-start gap-2 text-sm">
-                                  <AlertCircle className="h-4 w-4 text-yellow-500 mt-0.5 flex-shrink-0" />
-                                  <span>{concern}</span>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        )}
-                      </div>
-                    </CardContent>
-                  </Card>
-
-                  {/* Scam Check */}
-                  <Card>
-                    <CardHeader>
-                      <CardTitle className="flex items-center gap-2">
-                        <ShieldAlert className="h-5 w-5" />
-                        Scam & Fraud Check
-                      </CardTitle>
-                      <CardDescription>
-                        Cross-referenced against scam databases and consumer complaint forums
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="space-y-4">
-                        {/* Status */}
-                        <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                          <div className="flex items-center gap-3">
-                            {companyData.soleTraderVerification.scamCheck.isScam ? (
-                              <XCircle className="h-6 w-6 text-red-500" />
-                            ) : (
-                              <CheckCircle className="h-6 w-6 text-green-500" />
-                            )}
+                        
+                        {/* Strengths & Red Flags */}
+                        <div className="space-y-2">
+                          {companyData.soleTraderVerification.llmAnalysis.strengths.length > 0 && (
                             <div>
-                              <div className="font-medium">
-                                {companyData.soleTraderVerification.scamCheck.isScam ? "Scam Detected" : "No Scam Reports"}
-                              </div>
-                              <div className="text-sm text-gray-600">
-                                Risk Level: <span className={`font-medium ${companyData.soleTraderVerification.scamCheck.riskLevel === "low" ? "text-green-600" : companyData.soleTraderVerification.scamCheck.riskLevel === "medium" ? "text-yellow-600" : "text-red-600"}`}>
-                                  {companyData.soleTraderVerification.scamCheck.riskLevel.toUpperCase()}
-                                </span>
-                              </div>
+                              <h4 className="text-xs font-semibold mb-1 text-green-700 flex items-center gap-1">
+                                <ThumbsUp className="h-3 w-3" />
+                                Strengths
+                              </h4>
+                              <ul className="space-y-0.5">
+                                {companyData.soleTraderVerification.llmAnalysis.strengths.slice(0, 3).map((strength, index) => (
+                                  <li key={index} className="flex items-start gap-1 text-xs">
+                                    <CheckCircle className="h-3 w-3 text-green-500 mt-0.5 flex-shrink-0" />
+                                    <span>{strength}</span>
+                                  </li>
+                                ))}
+                              </ul>
                             </div>
-                          </div>
-                          <Badge
-                            variant={
-                              companyData.soleTraderVerification.scamCheck.riskLevel === "low"
-                                ? "default"
-                                : companyData.soleTraderVerification.scamCheck.riskLevel === "medium"
-                                  ? "secondary"
-                                  : "destructive"
-                            }
-                            className="text-lg px-4 py-2"
-                          >
-                            {companyData.soleTraderVerification.scamCheck.riskLevel.toUpperCase()} RISK
-                          </Badge>
-                        </div>
-
-                        {/* Warnings */}
-                        {companyData.soleTraderVerification.scamCheck.warnings.length > 0 && (
-                          <div>
-                            <h4 className="font-medium mb-2">Warnings & Recommendations</h4>
-                            <ul className="space-y-2">
-                              {companyData.soleTraderVerification.scamCheck.warnings.map((warning, index) => (
-                                <li key={index} className="flex items-start gap-2 text-sm p-2 bg-yellow-50 rounded border-l-4 border-yellow-400">
-                                  <AlertCircle className="h-4 w-4 text-yellow-600 mt-0.5 flex-shrink-0" />
-                                  <span>{warning}</span>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        )}
-
-                        {/* Scam Reports */}
-                        {companyData.soleTraderVerification.scamCheck.scamReports.length > 0 && (
-                          <div>
-                            <h4 className="font-medium mb-2 text-red-700">Reported Complaints</h4>
-                            <div className="space-y-2">
-                              {companyData.soleTraderVerification.scamCheck.scamReports.map((report, index) => (
-                                <div key={index} className="p-3 bg-red-50 border-l-4 border-red-500 rounded">
-                                  <div className="flex items-center justify-between mb-1">
-                                    <span className="font-medium text-sm">{report.source}</span>
-                                    <span className="text-xs text-gray-500">{report.date}</span>
-                                  </div>
-                                  <p className="text-sm">{report.description}</p>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    </CardContent>
-                  </Card>
-
-                  {/* Review Analysis */}
-                  <Card>
-                    <CardHeader>
-                      <CardTitle className="flex items-center gap-2">
-                        <MessageSquare className="h-5 w-5" />
-                        Deep Review Analysis
-                      </CardTitle>
-                      <CardDescription>
-                        Comprehensive sentiment analysis and review trends
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="space-y-6">
-                        {/* Overall Stats */}
-                        <div className="grid grid-cols-3 gap-4">
-                          <div className="text-center p-4 bg-blue-50 rounded-lg">
-                            <div className="text-3xl font-bold text-blue-600">
-                              {companyData.soleTraderVerification.reviewAnalysis.overallRating}
-                            </div>
-                            <div className="text-sm text-gray-600 flex items-center justify-center gap-1">
-                              <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                              Average Rating
-                            </div>
-                          </div>
-                          <div className="text-center p-4 bg-blue-50 rounded-lg">
-                            <div className="text-3xl font-bold text-blue-600">
-                              {companyData.soleTraderVerification.reviewAnalysis.totalReviews}
-                            </div>
-                            <div className="text-sm text-gray-600">Total Reviews</div>
-                          </div>
-                          <div className="text-center p-4 bg-blue-50 rounded-lg">
-                            <div className="text-3xl font-bold capitalize text-blue-600">
-                              {companyData.soleTraderVerification.reviewAnalysis.recentTrend}
-                            </div>
-                            <div className="text-sm text-gray-600">Recent Trend</div>
-                          </div>
-                        </div>
-
-                        {/* Sentiment Breakdown */}
-                        <div>
-                          <h4 className="font-medium mb-3">Sentiment Distribution</h4>
-                          <div className="space-y-3">
-                            <div>
-                              <div className="flex items-center justify-between mb-1">
-                                <span className="text-sm flex items-center gap-2">
-                                  <ThumbsUp className="h-4 w-4 text-green-500" />
-                                  Positive
-                                </span>
-                                <span className="text-sm font-medium">
-                                  {companyData.soleTraderVerification.reviewAnalysis.sentiment.positive}%
-                                </span>
-                              </div>
-                              <Progress
-                                value={companyData.soleTraderVerification.reviewAnalysis.sentiment.positive}
-                                className="h-2"
-                              />
-                            </div>
-                            <div>
-                              <div className="flex items-center justify-between mb-1">
-                                <span className="text-sm flex items-center gap-2">
-                                  <div className="h-4 w-4 rounded bg-gray-400" />
-                                  Neutral
-                                </span>
-                                <span className="text-sm font-medium">
-                                  {companyData.soleTraderVerification.reviewAnalysis.sentiment.neutral}%
-                                </span>
-                              </div>
-                              <Progress
-                                value={companyData.soleTraderVerification.reviewAnalysis.sentiment.neutral}
-                                className="h-2"
-                              />
-                            </div>
-                            <div>
-                              <div className="flex items-center justify-between mb-1">
-                                <span className="text-sm flex items-center gap-2">
-                                  <ThumbsDown className="h-4 w-4 text-red-500" />
-                                  Negative
-                                </span>
-                                <span className="text-sm font-medium">
-                                  {companyData.soleTraderVerification.reviewAnalysis.sentiment.negative}%
-                                </span>
-                              </div>
-                              <Progress
-                                value={companyData.soleTraderVerification.reviewAnalysis.sentiment.negative}
-                                className="h-2"
-                              />
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Common Themes */}
-                        <div>
-                          <h4 className="font-medium mb-3">Common Themes in Reviews</h4>
-                          <div className="grid grid-cols-2 gap-2">
-                            {companyData.soleTraderVerification.reviewAnalysis.commonThemes.map((theme, index) => (
-                              <div
-                                key={index}
-                                className={`p-3 rounded-lg border ${theme.sentiment === "positive" ? "bg-green-50 border-green-200" : "bg-red-50 border-red-200"}`}
-                              >
-                                <div className="flex items-center justify-between">
-                                  <span className="text-sm font-medium">{theme.theme}</span>
-                                  {theme.sentiment === "positive" ? (
-                                    <ThumbsUp className="h-4 w-4 text-green-600" />
-                                  ) : (
-                                    <ThumbsDown className="h-4 w-4 text-red-600" />
-                                  )}
-                                </div>
-                                <div className="text-xs text-gray-600 mt-1">Mentioned {theme.frequency} times</div>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-
-                        {/* Detailed Reviews */}
-                        <div>
-                          <h4 className="font-medium mb-3">Recent Reviews</h4>
-                          <div className="space-y-3">
-                            {companyData.soleTraderVerification.reviewAnalysis.detailedReviews.map((review, index) => (
-                              <div
-                                key={index}
-                                className={`p-4 rounded-lg border ${review.sentiment === "positive" ? "bg-green-50 border-green-200" : review.sentiment === "neutral" ? "bg-gray-50 border-gray-200" : "bg-red-50 border-red-200"}`}
-                              >
-                                <div className="flex items-center justify-between mb-2">
-                                  <div className="flex items-center gap-2">
-                                    <Badge variant="outline">{review.source}</Badge>
-                                    <div className="flex items-center gap-1">
-                                      <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                                      <span className="font-medium">{review.rating}</span>
-                                    </div>
-                                  </div>
-                                  <span className="text-xs text-gray-500">{review.date}</span>
-                                </div>
-                                <p className="text-sm">{review.text}</p>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-
-                  {/* Online Presence */}
-                  <Card>
-                    <CardHeader>
-                      <CardTitle className="flex items-center gap-2">
-                        <Globe className="h-5 w-5" />
-                        Online Presence Analysis
-                      </CardTitle>
-                      <CardDescription>
-                        Website, social media, and directory listings
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="space-y-4">
-                        {/* Website Status */}
-                        <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
-                          {companyData.soleTraderVerification.onlinePresence.hasWebsite ? (
-                            <CheckCircle className="h-5 w-5 text-green-500" />
-                          ) : (
-                            <XCircle className="h-5 w-5 text-red-500" />
                           )}
-                          <div className="flex-1">
-                            <div className="font-medium">Website</div>
-                            <div className="text-sm text-gray-600">
-                              {companyData.soleTraderVerification.onlinePresence.hasWebsite
-                                ? "Active professional website found"
-                                : "No website found"}
+                          
+                          {companyData.soleTraderVerification.llmAnalysis.redFlags.length > 0 && (
+                            <div>
+                              <h4 className="text-xs font-semibold mb-1 text-red-700 flex items-center gap-1">
+                                <ShieldAlert className="h-3 w-3" />
+                                Red Flags
+                              </h4>
+                              <ul className="space-y-0.5">
+                                {companyData.soleTraderVerification.llmAnalysis.redFlags.map((flag, index) => (
+                                  <li key={index} className="flex items-start gap-1 text-xs">
+                                    <AlertCircle className="h-3 w-3 text-red-500 mt-0.5 flex-shrink-0" />
+                                    <span>{flag}</span>
+                                  </li>
+                                ))}
+                              </ul>
                             </div>
-                          </div>
+                          )}
                         </div>
-
-                        {/* Social Media */}
-                        <div>
-                          <h4 className="font-medium mb-2">Social Media Presence</h4>
-                          <div className="grid grid-cols-2 gap-2">
-                            {companyData.soleTraderVerification.onlinePresence.socialMedia.map((platform, index) => (
-                              <div key={index} className="p-2 border rounded flex items-center gap-2">
-                                <CheckCircle className="h-4 w-4 text-green-500" />
-                                <span className="text-sm">{platform}</span>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-
-                        {/* Directory Listings */}
-                        <div>
-                          <h4 className="font-medium mb-2">Directory Listings</h4>
-                          <div className="flex flex-wrap gap-2">
-                            {companyData.soleTraderVerification.onlinePresence.directoryListings.map((directory, index) => (
-                              <Badge key={index} variant="secondary">
-                                {directory}
-                              </Badge>
-                            ))}
-                          </div>
-                        </div>
-
-                        {/* Trusted Platform Listings */}
-                        <div>
-                          <h4 className="font-medium mb-2 text-green-700">Listed on Trusted Platforms</h4>
-                          <div className="space-y-2">
-                            {companyData.soleTraderVerification.onlinePresence.goodSites.map((site, index) => (
-                              <div key={index} className="flex items-center gap-2 p-2 bg-green-50 rounded border-l-4 border-green-500">
-                                <CheckCircle className="h-4 w-4 text-green-600" />
-                                <span className="text-sm font-medium">{site}</span>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-
-                        {/* Suspicious Listings */}
-                        {companyData.soleTraderVerification.onlinePresence.suspiciousSites.length > 0 && (
-                          <div>
-                            <h4 className="font-medium mb-2 text-red-700">Suspicious Listings Found</h4>
-                            <div className="space-y-2">
-                              {companyData.soleTraderVerification.onlinePresence.suspiciousSites.map((site, index) => (
-                                <div key={index} className="flex items-center gap-2 p-2 bg-red-50 rounded border-l-4 border-red-500">
-                                  <AlertCircle className="h-4 w-4 text-red-600" />
-                                  <span className="text-sm">{site}</span>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        )}
                       </div>
                     </CardContent>
                   </Card>
-                </div>
-              ) : (
+
+                {/* Customer Reviews - Compact */}
                 <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <Star className="h-5 w-5" />
-                      Customer Reviews & Ratings
-                    </CardTitle>
-                    <CardDescription>
-                      Aggregated reviews from multiple platforms
+                  <CardHeader className="py-3">
+                    <div className="flex items-center justify-between">
+                      <CardTitle className="flex items-center gap-2 text-base">
+                        <Star className="h-4 w-4" />
+                        Customer Reviews
+                      </CardTitle>
+                      <div className="text-xl font-bold text-primary">
+                        {(companyData.reviews.reduce((sum, r) => sum + r.rating, 0) / companyData.reviews.length).toFixed(1)}
+                        <span className="text-xs text-muted-foreground ml-1">/ 5.0</span>
+                      </div>
+                    </div>
+                    <CardDescription className="text-xs">
+                      Based on {companyData.reviews.reduce((sum, r) => sum + r.count, 0)} reviews across {companyData.reviews.length} platforms
                     </CardDescription>
                   </CardHeader>
-                  <CardContent>
-                    <div className="space-y-6">
-                      {/* Overall Rating Summary */}
-                      <div className="p-6 bg-gradient-to-br from-primary/10 to-accent/10 rounded-lg border-2 border-primary/20">
-                        <div className="text-center mb-6">
-                          <div className="text-5xl font-bold text-primary mb-2">
-                            {(companyData.reviews.reduce((sum, r) => sum + r.rating, 0) / companyData.reviews.length).toFixed(1)}
+                  <CardContent className="py-3">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                      {companyData.reviews.map((review, index) => (
+                        <div key={index} className="p-2 border rounded bg-secondary/20">
+                          <div className="flex items-center justify-between mb-1">
+                            <span className="text-xs font-semibold truncate">{review.source}</span>
+                            <span className="text-sm font-bold text-primary">{review.rating.toFixed(1)}</span>
                           </div>
-                          <div className="flex items-center justify-center gap-1 mb-2">
+                          <div className="flex items-center gap-0.5 mb-1">
                             {[1, 2, 3, 4, 5].map((star) => (
                               <Star 
                                 key={star} 
-                                className={`h-6 w-6 ${star <= Math.round(companyData.reviews.reduce((sum, r) => sum + r.rating, 0) / companyData.reviews.length) ? "fill-accent text-accent" : "text-muted"}`} 
+                                className={`h-2.5 w-2.5 ${star <= Math.round(review.rating) ? "fill-accent text-accent" : "text-muted"}`} 
                               />
                             ))}
                           </div>
-                          <div className="text-sm text-muted-foreground">
-                            Based on {companyData.reviews.reduce((sum, r) => sum + r.count, 0)} total reviews
-                          </div>
+                          <a
+                            href={review.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[10px] text-primary hover:underline flex items-center gap-0.5"
+                          >
+                            View {review.count}
+                            <ExternalLink className="h-2.5 w-2.5" />
+                          </a>
                         </div>
-                      </div>
-
-                      {/* Platform Breakdown */}
-                      <div>
-                        <h3 className="font-semibold mb-4">Reviews by Platform</h3>
-                        <div className="space-y-4">
-                          {companyData.reviews.map((review, index) => (
-                            <div key={index} className="p-4 border rounded-lg hover:bg-secondary/50 transition-colors">
-                              <div className="flex items-center justify-between mb-3">
-                                <div className="flex items-center gap-2">
-                                  <h4 className="font-semibold">{review.source}</h4>
-                                  <Badge variant="outline">{review.count} reviews</Badge>
-                                </div>
-                                <div className="flex items-center gap-1">
-                                  {[1, 2, 3, 4, 5].map((star) => (
-                                    <Star 
-                                      key={star} 
-                                      className={`h-4 w-4 ${star <= Math.round(review.rating) ? "fill-accent text-accent" : "text-muted"}`} 
-                                    />
-                                  ))}
-                                  <span className="ml-2 font-bold">{review.rating.toFixed(1)}</span>
-                                </div>
-                              </div>
-                              <a
-                                href={review.link}
-                                className="text-sm text-primary hover:underline flex items-center gap-1"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                              >
-                                View reviews
-                                <ExternalLink className="h-3 w-3" />
-                              </a>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
+                      ))}
                     </div>
                   </CardContent>
                 </Card>
-              )}
+              </div>
             </TabsContent>
 
           </Tabs>
