@@ -1857,60 +1857,60 @@ export default function BusinessVerificationAgent() {
               </div>
             </TabsContent>
 
-            {/* SIC Codes Tab */}
+            {/* SIC Codes Tab - Compact */}
             {companyData.businessPurpose && (
               <TabsContent value="sic">
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <FileText className="h-5 w-5" />
-                      Standard Industrial Classification (SIC) Codes
+                <Card className="border-2 border-primary">
+                  <CardHeader className="pb-3 bg-gradient-to-r from-primary/10 to-accent/10">
+                    <CardTitle className="flex items-center gap-2 text-lg">
+                      <FileText className="h-5 w-5 text-primary" />
+                      SIC Codes
                     </CardTitle>
-                    <CardDescription>
+                    <CardDescription className="text-xs">
                       {companyData.type === "Sole Trader" 
-                        ? "SIC codes identified through business activity analysis and industry classification"
-                        : "Official SIC codes registered with Companies House"}
+                        ? "Identified through business activity analysis"
+                        : "Official Companies House registration"}
                     </CardDescription>
                   </CardHeader>
-                  <CardContent>
-                    <div className="space-y-4">
+                  <CardContent className="pt-4">
+                    <div className="space-y-2">
                       {companyData.businessPurpose.sicCodes.map((sic, index) => (
-                        <div key={index} className={`p-4 rounded-lg border-2 ${index === 0 ? "bg-primary/5 border-primary" : "bg-secondary border-border"}`}>
-                          <div className="flex items-center justify-between mb-3">
-                            <div className="flex items-center gap-3">
-                              <Badge variant={index === 0 ? "default" : "secondary"} className="text-lg px-3 py-1">
+                        <div key={index} className={`p-3 rounded border-2 ${index === 0 ? "bg-primary/5 border-primary" : "bg-secondary/30 border-border"}`}>
+                          <div className="flex items-center justify-between mb-2">
+                            <div className="flex items-center gap-2">
+                              <Badge variant={index === 0 ? "default" : "secondary"} className="text-sm">
                                 {sic.code}
                               </Badge>
-                              {index === 0 && <Badge variant="outline" className="border-primary text-primary">PRIMARY</Badge>}
+                              {index === 0 && <Badge variant="outline" className="border-primary text-primary text-xs">PRIMARY</Badge>}
                             </div>
-                            <Badge variant="outline">Section {sic.section} • Division {sic.division}</Badge>
+                            <Badge variant="outline" className="text-xs">Sec {sic.section} • Div {sic.division}</Badge>
                           </div>
-                          <p className="font-medium text-lg mb-2">{sic.description}</p>
-                          <p className="text-sm text-muted-foreground">
-                            This classification indicates the business primarily operates in the {sic.description.toLowerCase()} sector.
+                          <p className="font-semibold text-sm mb-1">{sic.description}</p>
+                          <p className="text-xs text-muted-foreground">
+                            {sic.description.toLowerCase()} sector
                           </p>
                         </div>
                       ))}
                     </div>
 
-                    {/* Primary Activity Breakdown */}
-                    <div className="mt-6 p-4 bg-gradient-to-br from-primary/5 to-accent/5 rounded-lg border border-primary/20">
-                      <div className="flex items-center gap-2 mb-3">
-                        <Target className="h-5 w-5 text-primary" />
-                        <h3 className="font-semibold text-primary">Business Activities</h3>
+                    {/* Compact Activity Breakdown */}
+                    <div className="mt-3 p-3 bg-gradient-to-br from-primary/5 to-accent/5 rounded border border-primary/20">
+                      <div className="flex items-center gap-2 mb-2">
+                        <Target className="h-4 w-4 text-primary" />
+                        <h3 className="font-semibold text-sm text-primary">Business Activities</h3>
                       </div>
-                      <div className="space-y-3">
+                      <div className="space-y-2">
                         <div>
-                          <div className="text-sm text-muted-foreground mb-1">Primary Activity</div>
-                          <div className="font-semibold text-lg">{companyData.businessPurpose.primaryActivity}</div>
+                          <div className="text-xs text-muted-foreground">Primary Activity</div>
+                          <div className="font-semibold text-sm">{companyData.businessPurpose.primaryActivity}</div>
                         </div>
                         {companyData.businessPurpose.secondaryActivities.length > 0 && (
                           <div>
-                            <div className="text-sm text-muted-foreground mb-2">Secondary Activities</div>
-                            <ul className="space-y-2">
+                            <div className="text-xs text-muted-foreground mb-1">Secondary Activities</div>
+                            <ul className="space-y-1">
                               {companyData.businessPurpose.secondaryActivities.map((activity, index) => (
-                                <li key={index} className="flex items-start gap-2 text-sm">
-                                  <span className="text-primary mt-1">•</span>
+                                <li key={index} className="flex items-start gap-1.5 text-xs">
+                                  <span className="text-primary">•</span>
                                   <span>{activity}</span>
                                 </li>
                               ))}
@@ -1920,13 +1920,13 @@ export default function BusinessVerificationAgent() {
                       </div>
                     </div>
 
-                    {/* Data Source */}
-                    <div className="mt-4 p-3 bg-secondary/50 rounded-lg flex items-center gap-2">
-                      <Building2 className="h-4 w-4 text-primary" />
-                      <span className="text-sm">
+                    {/* Compact Data Source */}
+                    <div className="mt-3 p-2 bg-secondary/30 rounded flex items-center gap-2">
+                      <Building2 className="h-3 w-3 text-primary" />
+                      <span className="text-xs">
                         <strong>Source:</strong> {companyData.type === "Sole Trader" 
-                          ? "Derived from business activity analysis and industry standards"
-                          : "Companies House official registration"}
+                          ? "Activity analysis"
+                          : "Companies House"}
                       </span>
                     </div>
                   </CardContent>
@@ -1934,99 +1934,97 @@ export default function BusinessVerificationAgent() {
               </TabsContent>
             )}
 
-            {/* Address Verification Tab */}
+            {/* Address Verification Tab - Compact */}
             <TabsContent value="address">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <MapPin className="h-5 w-5" />
+              <Card className="border-2 border-primary">
+                <CardHeader className="pb-3 bg-gradient-to-r from-primary/10 to-accent/10">
+                  <CardTitle className="flex items-center gap-2 text-lg">
+                    <MapPin className="h-5 w-5 text-primary" />
                     Address Verification
                   </CardTitle>
-                  <CardDescription>Business location verified through Google Maps and online directories</CardDescription>
+                  <CardDescription className="text-xs">Verified through Google Maps and directories</CardDescription>
                 </CardHeader>
-                <CardContent>
-                  <div className="space-y-6">
-                    {/* Address Display */}
-                    <div className="p-6 bg-gradient-to-br from-primary/10 to-white rounded-lg border-2 border-primary">
-                      <div className="flex items-start gap-4">
-                        <div className="h-12 w-12 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
-                          <MapPin className="h-6 w-6 text-white" />
+                <CardContent className="pt-4">
+                  <div className="space-y-3">
+                    {/* Compact Address Display */}
+                    <div className="p-3 bg-gradient-to-br from-primary/10 to-white rounded border-2 border-primary">
+                      <div className="flex items-start gap-3">
+                        <div className="h-8 w-8 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
+                          <MapPin className="h-4 w-4 text-white" />
                         </div>
                         <div className="flex-1">
-                          <div className="text-sm text-muted-foreground mb-1">Verified Business Address</div>
-                          <div className="text-xl font-semibold mb-3">{companyData.address}</div>
-                          <div className="flex items-center gap-2">
-                            <Badge variant="default" className="flex items-center gap-1">
-                              <CheckCircle className="h-3 w-3" />
-                              Verified on Google Maps
-                            </Badge>
-                          </div>
+                          <div className="text-xs text-muted-foreground">Verified Address</div>
+                          <div className="text-sm font-semibold mb-2">{companyData.address}</div>
+                          <Badge variant="default" className="flex items-center gap-1 w-fit text-xs">
+                            <CheckCircle className="h-3 w-3" />
+                            Google Maps
+                          </Badge>
                         </div>
                       </div>
                     </div>
 
-                    {/* Verification Details */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="p-4 border rounded-lg">
-                        <div className="flex items-center gap-2 mb-2">
-                          <CheckCircle className="h-5 w-5 text-primary" />
-                          <span className="font-semibold">Google Maps Listing</span>
+                    {/* Compact Verification Grid */}
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                      <div className="p-2 border rounded bg-secondary/20">
+                        <div className="flex items-center gap-1.5 mb-1">
+                          <CheckCircle className="h-3 w-3 text-primary" />
+                          <span className="font-semibold text-xs">Maps Listing</span>
                         </div>
-                        <p className="text-sm text-muted-foreground">Business location confirmed and verified on Google Maps with active business profile.</p>
+                        <p className="text-[10px] text-muted-foreground">Confirmed location</p>
                       </div>
-                      <div className="p-4 border rounded-lg">
-                        <div className="flex items-center gap-2 mb-2">
-                          <CheckCircle className="h-5 w-5 text-primary" />
-                          <span className="font-semibold">Directory Consistency</span>
+                      <div className="p-2 border rounded bg-secondary/20">
+                        <div className="flex items-center gap-1.5 mb-1">
+                          <CheckCircle className="h-3 w-3 text-primary" />
+                          <span className="font-semibold text-xs">Directories</span>
                         </div>
-                        <p className="text-sm text-muted-foreground">Address matches across multiple online business directories and platforms.</p>
+                        <p className="text-[10px] text-muted-foreground">Consistent match</p>
                       </div>
                       {!companyData.type.includes("Sole Trader") && (
-                        <div className="p-4 border rounded-lg">
-                          <div className="flex items-center gap-2 mb-2">
-                            <CheckCircle className="h-5 w-5 text-primary" />
-                            <span className="font-semibold">Companies House Match</span>
+                        <div className="p-2 border rounded bg-secondary/20">
+                          <div className="flex items-center gap-1.5 mb-1">
+                            <CheckCircle className="h-3 w-3 text-primary" />
+                            <span className="font-semibold text-xs">Companies House</span>
                           </div>
-                          <p className="text-sm text-muted-foreground">Registered address on Companies House matches the operating address.</p>
+                          <p className="text-[10px] text-muted-foreground">Registered match</p>
                         </div>
                       )}
-                      <div className="p-4 border rounded-lg">
-                        <div className="flex items-center gap-2 mb-2">
-                          <Globe className="h-5 w-5 text-primary" />
-                          <span className="font-semibold">Website Information</span>
+                      <div className="p-2 border rounded bg-secondary/20">
+                        <div className="flex items-center gap-1.5 mb-1">
+                          <Globe className="h-3 w-3 text-primary" />
+                          <span className="font-semibold text-xs">Website</span>
                         </div>
-                        <p className="text-sm text-muted-foreground">Address listed on business website is consistent with verified location.</p>
+                        <p className="text-[10px] text-muted-foreground">Consistent info</p>
                       </div>
                     </div>
 
-                    {/* Contact Information */}
+                    {/* Compact Contact Information */}
                     <div>
-                      <h3 className="font-semibold mb-3">Contact Information</h3>
-                      <div className="space-y-2">
+                      <h3 className="text-sm font-semibold mb-2">Contact Information</h3>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
                         {companyData.phone && (
-                          <div className="flex items-center gap-3 p-3 bg-secondary/50 rounded-lg">
-                            <Phone className="h-4 w-4 text-primary" />
-                            <div className="flex-1">
-                              <div className="text-xs text-muted-foreground">Phone</div>
-                              <div className="font-medium">{companyData.phone}</div>
+                          <div className="flex items-center gap-2 p-2 bg-secondary/30 rounded">
+                            <Phone className="h-3 w-3 text-primary" />
+                            <div className="flex-1 min-w-0">
+                              <div className="text-[10px] text-muted-foreground">Phone</div>
+                              <div className="font-medium text-xs truncate">{companyData.phone}</div>
                             </div>
                           </div>
                         )}
                         {companyData.email && (
-                          <div className="flex items-center gap-3 p-3 bg-secondary/50 rounded-lg">
-                            <Mail className="h-4 w-4 text-primary" />
-                            <div className="flex-1">
-                              <div className="text-xs text-muted-foreground">Email</div>
-                              <div className="font-medium">{companyData.email}</div>
+                          <div className="flex items-center gap-2 p-2 bg-secondary/30 rounded">
+                            <Mail className="h-3 w-3 text-primary" />
+                            <div className="flex-1 min-w-0">
+                              <div className="text-[10px] text-muted-foreground">Email</div>
+                              <div className="font-medium text-xs truncate">{companyData.email}</div>
                             </div>
                           </div>
                         )}
                         {companyData.website && (
-                          <div className="flex items-center gap-3 p-3 bg-secondary/50 rounded-lg">
-                            <Globe className="h-4 w-4 text-primary" />
-                            <div className="flex-1">
-                              <div className="text-xs text-muted-foreground">Website</div>
-                              <div className="font-medium">{companyData.website}</div>
+                          <div className="flex items-center gap-2 p-2 bg-secondary/30 rounded">
+                            <Globe className="h-3 w-3 text-primary" />
+                            <div className="flex-1 min-w-0">
+                              <div className="text-[10px] text-muted-foreground">Website</div>
+                              <div className="font-medium text-xs truncate">{companyData.website}</div>
                             </div>
                           </div>
                         )}
@@ -2037,61 +2035,61 @@ export default function BusinessVerificationAgent() {
               </Card>
             </TabsContent>
 
-            {/* Web Presence Tab */}
+            {/* Web Presence Tab - Compact */}
             <TabsContent value="web">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Globe className="h-5 w-5" />
-                    Web Presence & Online Listings
+              <Card className="border-2 border-primary">
+                <CardHeader className="pb-3 bg-gradient-to-r from-primary/10 to-accent/10">
+                  <CardTitle className="flex items-center gap-2 text-lg">
+                    <Globe className="h-5 w-5 text-primary" />
+                    Web Presence
                   </CardTitle>
-                  <CardDescription>Business presence across the web and trusted directories</CardDescription>
+                  <CardDescription className="text-xs">Online listings and directory verification</CardDescription>
                 </CardHeader>
-                <CardContent>
-                  <div className="space-y-6">
-                    {/* Website Status */}
-                    <div className="p-4 bg-gradient-to-r from-primary/10 to-accent/10 rounded-lg border-2 border-primary/20">
+                <CardContent className="pt-4">
+                  <div className="space-y-3">
+                    {/* Compact Website Status */}
+                    <div className="p-3 bg-gradient-to-r from-primary/10 to-accent/10 rounded border-2 border-primary/20">
                       <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                          <div className="h-12 w-12 bg-primary rounded-full flex items-center justify-center">
-                            <Globe className="h-6 w-6 text-white" />
+                        <div className="flex items-center gap-2">
+                          <div className="h-8 w-8 bg-primary rounded-full flex items-center justify-center">
+                            <Globe className="h-4 w-4 text-white" />
                           </div>
                           <div>
-                            <div className="font-semibold text-lg">Official Website</div>
-                            <a href={companyData.website} target="_blank" rel="noopener noreferrer" className="text-sm text-primary hover:underline flex items-center gap-1">
+                            <div className="font-semibold text-sm">Official Website</div>
+                            <a href={companyData.website} target="_blank" rel="noopener noreferrer" className="text-xs text-primary hover:underline flex items-center gap-1">
                               {companyData.website}
-                              <ExternalLink className="h-3 w-3" />
+                              <ExternalLink className="h-2.5 w-2.5" />
                             </a>
                           </div>
                         </div>
-                        <Badge variant="default">Active</Badge>
+                        <Badge variant="default" className="text-xs">Active</Badge>
                       </div>
                     </div>
 
-                    {/* Verification Sources */}
+                    {/* Compact Verification Sources */}
                     <div>
-                      <h3 className="font-semibold mb-3">Verified Listings</h3>
-                      <div className="grid grid-cols-1 gap-3">
+                      <h3 className="text-sm font-semibold mb-2">Verified Listings</h3>
+                      <div className="grid grid-cols-1 gap-2">
                         {companyData.verificationSources.map((source, index) => (
-                          <div key={index} className={`flex items-center justify-between p-3 rounded-lg border ${
+                          <div key={index} className={`flex items-center justify-between p-2 rounded border ${
                             source.status === "verified" ? "bg-primary/5 border-primary/20" :
                             source.status === "warning" ? "bg-accent/5 border-accent/20" :
-                            "bg-secondary border-border"
+                            "bg-secondary/30 border-border"
                           }`}>
-                            <div className="flex items-center gap-3">
+                            <div className="flex items-center gap-2">
                               {source.status === "verified" ? (
-                                <CheckCircle className="h-5 w-5 text-primary" />
+                                <CheckCircle className="h-3 w-3 text-primary" />
                               ) : source.status === "warning" ? (
-                                <AlertCircle className="h-5 w-5 text-accent" />
+                                <AlertCircle className="h-3 w-3 text-accent" />
                               ) : (
-                                <XCircle className="h-5 w-5 text-muted-foreground" />
+                                <XCircle className="h-3 w-3 text-muted-foreground" />
                               )}
                               <div>
-                                <div className="font-medium">{source.name}</div>
-                                <div className="text-xs text-muted-foreground">{source.details}</div>
+                                <div className="font-medium text-xs">{source.name}</div>
+                                <div className="text-[10px] text-muted-foreground">{source.details}</div>
                               </div>
                             </div>
-                            <Badge variant={source.status === "verified" ? "default" : source.status === "warning" ? "secondary" : "outline"}>
+                            <Badge variant={source.status === "verified" ? "default" : source.status === "warning" ? "secondary" : "outline"} className="text-[10px]">
                               {source.status.toUpperCase()}
                             </Badge>
                           </div>
@@ -2099,13 +2097,13 @@ export default function BusinessVerificationAgent() {
                       </div>
                     </div>
 
-                    {/* Key Platform Summary */}
-                    <div className="p-4 bg-secondary/50 rounded-lg">
-                      <h3 className="font-semibold mb-3">Platform Summary</h3>
-                      <p className="text-sm text-muted-foreground leading-relaxed">
-                        This business has been verified across multiple platforms including Google Business, online directories, and review sites. 
-                        The information is consistent across all sources, indicating an established and authentic business presence. 
-                        {companyData.website && " The business maintains an active website with proper SSL certification."}
+                    {/* Compact Platform Summary */}
+                    <div className="p-3 bg-secondary/30 rounded">
+                      <h3 className="text-sm font-semibold mb-2">Summary</h3>
+                      <p className="text-xs text-muted-foreground leading-relaxed">
+                        Verified across multiple platforms including Google Business, directories, and review sites. 
+                        Consistent information indicates authentic business presence.
+                        {companyData.website && " Active website with SSL certification."}
                       </p>
                     </div>
                   </div>
@@ -2113,98 +2111,99 @@ export default function BusinessVerificationAgent() {
               </Card>
             </TabsContent>
 
-            {/* Business Purpose Tab */}
+            {/* Business Purpose Tab - Compact */}
             {companyData.businessPurpose && (
               <TabsContent value="purpose">
-                <div className="space-y-6">
-                  {/* Business Purpose Analysis */}
-                  <Card>
-                    <CardHeader>
-                      <CardTitle className="flex items-center gap-2">
-                        <Target className="h-5 w-5" />
-                        Business Purpose Analysis
-                      </CardTitle>
-                      <CardDescription>Understanding the core business activities and purpose</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="space-y-6">
-                        {/* Industry Classification */}
-                        <div className="p-4 bg-gradient-to-br from-primary/10 to-accent/10 rounded-lg border-2 border-primary">
-                          <h3 className="font-semibold text-primary mb-3 flex items-center gap-2">
-                            <Building2 className="h-5 w-5" />
-                            Industry Classification
-                          </h3>
-                          <div className="space-y-3">
-                            <div>
-                              <div className="text-sm text-muted-foreground mb-1">Primary Industry</div>
-                              <div className="text-lg font-semibold">{companyData.businessPurpose.primaryActivity}</div>
-                            </div>
-                            <div>
-                              <div className="text-sm text-muted-foreground mb-1">SIC Code Classification</div>
-                              <div className="flex flex-wrap gap-2">
-                                {companyData.businessPurpose.sicCodes.map((sic, index) => (
-                                  <Badge key={index} variant={index === 0 ? "default" : "secondary"}>
-                                    {sic.code} - {sic.description}
-                                  </Badge>
-                                ))}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Business Insights */}
-                        <div>
-                          <h3 className="font-semibold mb-3 flex items-center gap-2">
-                            <Brain className="h-5 w-5 text-primary" />
-                            Business Insights
-                          </h3>
-                          <div className="space-y-3">
-                            {companyData.businessPurpose.businessInsights.map((insight, index) => (
-                              <div key={index} className="flex items-start gap-3 p-3 bg-white rounded-lg border">
-                                <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-                                <span className="text-sm">{insight}</span>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-
-                        {/* Verification Factors */}
-                        <div>
-                          <h3 className="font-semibold mb-3 flex items-center gap-2">
-                            <ShieldAlert className="h-5 w-5 text-primary" />
-                            Verification Factors
-                          </h3>
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            {companyData.businessPurpose.trustFactors.map((factor, index) => (
-                              <div key={index} className="p-4 border rounded-lg">
-                                <div className="font-medium mb-2">{factor.factor}</div>
-                                <p className="text-sm text-muted-foreground">{factor.details}</p>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-
-                        {/* Recommendations */}
-                        {companyData.businessPurpose.recommendations.length > 0 && (
+                <Card className="border-2 border-primary">
+                  <CardHeader className="pb-3 bg-gradient-to-r from-primary/10 to-accent/10">
+                    <CardTitle className="flex items-center gap-2 text-lg">
+                      <Target className="h-5 w-5 text-primary" />
+                      Business Purpose
+                    </CardTitle>
+                    <CardDescription className="text-xs">Core activities and industry classification</CardDescription>
+                  </CardHeader>
+                  <CardContent className="pt-4">
+                    <div className="space-y-3">
+                      {/* Compact Industry Classification */}
+                      <div className="p-3 bg-gradient-to-br from-primary/10 to-accent/10 rounded border-2 border-primary">
+                        <h3 className="font-semibold text-sm text-primary mb-2 flex items-center gap-1.5">
+                          <Building2 className="h-4 w-4" />
+                          Industry Classification
+                        </h3>
+                        <div className="space-y-2">
                           <div>
-                            <h3 className="font-semibold mb-3 flex items-center gap-2">
-                              <FileText className="h-5 w-5 text-primary" />
-                              Recommendations
-                            </h3>
-                            <div className="space-y-2">
-                              {companyData.businessPurpose.recommendations.map((rec, index) => (
-                                <div key={index} className="flex items-start gap-3 p-3 bg-accent/5 rounded-lg border border-accent/20">
-                                  <TrendingUp className="h-5 w-5 text-accent mt-0.5 flex-shrink-0" />
-                                  <span className="text-sm">{rec}</span>
-                                </div>
+                            <div className="text-xs text-muted-foreground">Primary Industry</div>
+                            <div className="text-sm font-semibold">{companyData.businessPurpose.primaryActivity}</div>
+                          </div>
+                          <div>
+                            <div className="text-xs text-muted-foreground mb-1">SIC Codes</div>
+                            <div className="flex flex-wrap gap-1.5">
+                              {companyData.businessPurpose.sicCodes.map((sic, index) => (
+                                <Badge key={index} variant={index === 0 ? "default" : "secondary"} className="text-xs">
+                                  {sic.code}
+                                </Badge>
                               ))}
                             </div>
                           </div>
-                        )}
+                        </div>
                       </div>
-                    </CardContent>
-                  </Card>
-                </div>
+
+                      {/* Compact Business Insights */}
+                      <div>
+                        <h3 className="text-sm font-semibold mb-2 flex items-center gap-1.5">
+                          <Brain className="h-4 w-4 text-primary" />
+                          Business Insights
+                        </h3>
+                        <div className="space-y-1.5">
+                          {companyData.businessPurpose?.businessInsights?.length > 0 ? (
+                            companyData.businessPurpose.businessInsights.map((insight, index) => (
+                              <div key={index} className="flex items-start gap-2 p-2 bg-white rounded border text-xs">
+                                <CheckCircle className="h-3 w-3 text-primary mt-0.5 flex-shrink-0" />
+                                <span>{insight}</span>
+                              </div>
+                            ))
+                          ) : (
+                            <div className="text-xs text-muted-foreground p-2">No insights available</div>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Compact Verification Factors */}
+                      <div>
+                        <h3 className="text-sm font-semibold mb-2 flex items-center gap-1.5">
+                          <ShieldAlert className="h-4 w-4 text-primary" />
+                          Verification Factors
+                        </h3>
+                        <div className="grid grid-cols-2 gap-2">
+                          {companyData.businessPurpose.trustFactors.map((factor, index) => (
+                            <div key={index} className="p-2 border rounded bg-secondary/20">
+                              <div className="font-medium text-xs mb-1">{factor.factor}</div>
+                              <p className="text-[10px] text-muted-foreground">{factor.details}</p>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Recommendations */}
+                      {companyData.businessPurpose.recommendations.length > 0 && (
+                        <div>
+                          <h3 className="text-sm font-semibold mb-2 flex items-center gap-1.5">
+                            <FileText className="h-4 w-4 text-primary" />
+                            Recommendations
+                          </h3>
+                          <div className="space-y-1.5">
+                            {companyData.businessPurpose.recommendations.map((rec, index) => (
+                              <div key={index} className="flex items-start gap-2 p-2 bg-accent/5 rounded border border-accent/20">
+                                <TrendingUp className="h-4 w-4 text-accent mt-0.5 flex-shrink-0" />
+                                <span className="text-xs">{rec}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
               </TabsContent>
             )}
 
