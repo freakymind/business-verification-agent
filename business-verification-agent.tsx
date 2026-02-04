@@ -1668,11 +1668,9 @@ export default function BusinessVerificationAgent() {
             {/* Unified TabsList for all business types */}
             <TabsList className="grid w-full grid-cols-6">
               <TabsTrigger value="summary">Summary</TabsTrigger>
-              <TabsTrigger value="sic">SIC Codes</TabsTrigger>
+              <TabsTrigger value="purpose">Business Purpose & SIC</TabsTrigger>
               <TabsTrigger value="address">Address</TabsTrigger>
               <TabsTrigger value="web">Web Presence</TabsTrigger>
-              <TabsTrigger value="reviews">Reviews</TabsTrigger>
-              <TabsTrigger value="purpose">Business Purpose</TabsTrigger>
             </TabsList>
 
             {/* Summary Tab - Compact Comprehensive Summary */}
@@ -1857,82 +1855,7 @@ export default function BusinessVerificationAgent() {
               </div>
             </TabsContent>
 
-            {/* SIC Codes Tab - Compact */}
-            {companyData.businessPurpose && (
-              <TabsContent value="sic">
-                <Card className="border-2 border-primary">
-                  <CardHeader className="pb-3 bg-gradient-to-r from-primary/10 to-accent/10">
-                    <CardTitle className="flex items-center gap-2 text-lg">
-                      <FileText className="h-5 w-5 text-primary" />
-                      SIC Codes
-                    </CardTitle>
-                    <CardDescription className="text-xs">
-                      {companyData.type === "Sole Trader" 
-                        ? "Identified through business activity analysis"
-                        : "Official Companies House registration"}
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="pt-4">
-                    <div className="space-y-2">
-                      {companyData.businessPurpose.sicCodes.map((sic, index) => (
-                        <div key={index} className={`p-3 rounded border-2 ${index === 0 ? "bg-primary/5 border-primary" : "bg-secondary/30 border-border"}`}>
-                          <div className="flex items-center justify-between mb-2">
-                            <div className="flex items-center gap-2">
-                              <Badge variant={index === 0 ? "default" : "secondary"} className="text-sm">
-                                {sic.code}
-                              </Badge>
-                              {index === 0 && <Badge variant="outline" className="border-primary text-primary text-xs">PRIMARY</Badge>}
-                            </div>
-                            <Badge variant="outline" className="text-xs">Sec {sic.section} • Div {sic.division}</Badge>
-                          </div>
-                          <p className="font-semibold text-sm mb-1">{sic.description}</p>
-                          <p className="text-xs text-muted-foreground">
-                            {sic.description.toLowerCase()} sector
-                          </p>
-                        </div>
-                      ))}
-                    </div>
 
-                    {/* Compact Activity Breakdown */}
-                    <div className="mt-3 p-3 bg-gradient-to-br from-primary/5 to-accent/5 rounded border border-primary/20">
-                      <div className="flex items-center gap-2 mb-2">
-                        <Target className="h-4 w-4 text-primary" />
-                        <h3 className="font-semibold text-sm text-primary">Business Activities</h3>
-                      </div>
-                      <div className="space-y-2">
-                        <div>
-                          <div className="text-xs text-muted-foreground">Primary Activity</div>
-                          <div className="font-semibold text-sm">{companyData.businessPurpose.primaryActivity}</div>
-                        </div>
-                        {companyData.businessPurpose.secondaryActivities.length > 0 && (
-                          <div>
-                            <div className="text-xs text-muted-foreground mb-1">Secondary Activities</div>
-                            <ul className="space-y-1">
-                              {companyData.businessPurpose.secondaryActivities.map((activity, index) => (
-                                <li key={index} className="flex items-start gap-1.5 text-xs">
-                                  <span className="text-primary">•</span>
-                                  <span>{activity}</span>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-
-                    {/* Compact Data Source */}
-                    <div className="mt-3 p-2 bg-secondary/30 rounded flex items-center gap-2">
-                      <Building2 className="h-3 w-3 text-primary" />
-                      <span className="text-xs">
-                        <strong>Source:</strong> {companyData.type === "Sole Trader" 
-                          ? "Activity analysis"
-                          : "Companies House"}
-                      </span>
-                    </div>
-                  </CardContent>
-                </Card>
-              </TabsContent>
-            )}
 
             {/* Address Verification Tab - Compact */}
             <TabsContent value="address">
@@ -2213,40 +2136,74 @@ export default function BusinessVerificationAgent() {
               </Card>
             </TabsContent>
 
-            {/* Business Purpose Tab - Compact */}
+            {/* Business Purpose & SIC Tab - Enhanced */}
             {companyData.businessPurpose && (
               <TabsContent value="purpose">
                 <Card className="border-2 border-primary">
                   <CardHeader className="pb-3 bg-gradient-to-r from-primary/10 to-accent/10">
                     <CardTitle className="flex items-center gap-2 text-lg">
-                      <Target className="h-5 w-5 text-primary" />
-                      Business Purpose
+                      <FileText className="h-5 w-5 text-primary" />
+                      Business Purpose & SIC Classification
                     </CardTitle>
-                    <CardDescription className="text-xs">Core activities and industry classification</CardDescription>
+                    <CardDescription className="text-xs">
+                      {companyData.type === "Sole Trader" 
+                        ? "Industry classification through activity analysis"
+                        : "Official Companies House registration and classification"}
+                    </CardDescription>
                   </CardHeader>
                   <CardContent className="pt-4">
                     <div className="space-y-3">
-                      {/* Compact Industry Classification */}
-                      <div className="p-3 bg-gradient-to-br from-primary/10 to-accent/10 rounded border-2 border-primary">
+                      {/* SIC Codes - Detailed Display */}
+                      <div>
+                        <h3 className="text-sm font-semibold mb-2 flex items-center gap-2">
+                          <FileText className="h-4 w-4 text-primary" />
+                          SIC Codes ({companyData.businessPurpose.sicCodes.length})
+                        </h3>
+                        <div className="space-y-2">
+                          {companyData.businessPurpose.sicCodes.map((sic, index) => (
+                            <div key={index} className={`p-3 rounded border-2 ${index === 0 ? "bg-primary/5 border-primary" : "bg-secondary/30 border-border"}`}>
+                              <div className="flex items-center justify-between mb-2">
+                                <div className="flex items-center gap-2">
+                                  <Badge variant={index === 0 ? "default" : "secondary"} className="text-sm">
+                                    {sic.code}
+                                  </Badge>
+                                  {index === 0 && <Badge variant="outline" className="border-primary text-primary text-xs">PRIMARY</Badge>}
+                                </div>
+                                <Badge variant="outline" className="text-xs">Sec {sic.section} • Div {sic.division}</Badge>
+                              </div>
+                              <p className="font-semibold text-sm mb-1">{sic.description}</p>
+                              <p className="text-xs text-muted-foreground">
+                                {sic.description.toLowerCase()} sector
+                              </p>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Primary & Secondary Activities */}
+                      <div className="p-3 bg-gradient-to-br from-primary/5 to-accent/5 rounded border border-primary/20">
                         <h3 className="font-semibold text-sm text-primary mb-2 flex items-center gap-1.5">
-                          <Building2 className="h-4 w-4" />
-                          Industry Classification
+                          <Target className="h-4 w-4" />
+                          Business Activities
                         </h3>
                         <div className="space-y-2">
                           <div>
-                            <div className="text-xs text-muted-foreground">Primary Industry</div>
-                            <div className="text-sm font-semibold">{companyData.businessPurpose.primaryActivity}</div>
+                            <div className="text-xs text-muted-foreground">Primary Activity</div>
+                            <div className="font-semibold text-sm">{companyData.businessPurpose.primaryActivity}</div>
                           </div>
-                          <div>
-                            <div className="text-xs text-muted-foreground mb-1">SIC Codes</div>
-                            <div className="flex flex-wrap gap-1.5">
-                              {companyData.businessPurpose.sicCodes.map((sic, index) => (
-                                <Badge key={index} variant={index === 0 ? "default" : "secondary"} className="text-xs">
-                                  {sic.code}
-                                </Badge>
-                              ))}
+                          {companyData.businessPurpose.secondaryActivities.length > 0 && (
+                            <div>
+                              <div className="text-xs text-muted-foreground mb-1">Secondary Activities</div>
+                              <ul className="space-y-1">
+                                {companyData.businessPurpose.secondaryActivities.map((activity, index) => (
+                                  <li key={index} className="flex items-start gap-1.5 text-xs">
+                                    <span className="text-primary">•</span>
+                                    <span>{activity}</span>
+                                  </li>
+                                ))}
+                              </ul>
                             </div>
-                          </div>
+                          )}
                         </div>
                       </div>
 
@@ -2309,155 +2266,7 @@ export default function BusinessVerificationAgent() {
               </TabsContent>
             )}
 
-            {/* Reviews Tab - Compact Unified View */}
-            <TabsContent value="reviews">
-              <div className="space-y-3">
-                {/* AI Credibility Analysis - Compact */}
-                {companyData.soleTraderVerification?.llmAnalysis && (
-                  <Card>
-                    <CardHeader className="py-3">
-                      <div className="flex items-center justify-between">
-                        <CardTitle className="flex items-center gap-2 text-base">
-                          <Brain className="h-4 w-4" />
-                          AI Credibility Analysis
-                        </CardTitle>
-                        <div className="flex items-center gap-2">
-                          <Badge className="text-xs">
-                            Score: {companyData.soleTraderVerification.llmAnalysis.credibilityScore}/100
-                          </Badge>
-                          <Badge 
-                            variant={
-                              companyData.soleTraderVerification.llmAnalysis.sentiment === "positive" ? "default" : 
-                              companyData.soleTraderVerification.llmAnalysis.sentiment === "neutral" ? "secondary" : "destructive"
-                            }
-                            className="text-xs"
-                          >
-                            {companyData.soleTraderVerification.llmAnalysis.sentiment}
-                          </Badge>
-                        </div>
-                      </div>
-                    </CardHeader>
-                    <CardContent className="py-3">
-                      <div className="grid grid-cols-2 gap-3">
-                        {/* Insights */}
-                        <div>
-                          <h4 className="text-xs font-semibold mb-2 flex items-center gap-1">
-                            <TrendingUp className="h-3 w-3" />
-                            Key Insights
-                          </h4>
-                          <ul className="space-y-1">
-                            {companyData.soleTraderVerification.llmAnalysis.insights?.map((insight, index) => (
-                              <li key={index} className="flex items-start gap-1 text-xs">
-                                <CheckCircle className="h-3 w-3 text-primary mt-0.5 flex-shrink-0" />
-                                <span>{insight}</span>
-                              </li>
-                            )) || (
-                              <li className="text-xs text-muted-foreground">No insights available</li>
-                            )}
-                          </ul>
-                        </div>
-                        
-                        {/* Strengths & Red Flags */}
-                        <div className="space-y-2">
-                          {companyData.soleTraderVerification.llmAnalysis.strengths?.length > 0 && (
-                            <div>
-                              <h4 className="text-xs font-semibold mb-1 text-green-700 flex items-center gap-1">
-                                <ThumbsUp className="h-3 w-3" />
-                                Strengths
-                              </h4>
-                              <ul className="space-y-0.5">
-                                {companyData.soleTraderVerification.llmAnalysis.strengths.slice(0, 3).map((strength, index) => (
-                                  <li key={index} className="flex items-start gap-1 text-xs">
-                                    <CheckCircle className="h-3 w-3 text-green-500 mt-0.5 flex-shrink-0" />
-                                    <span>{strength}</span>
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-                          )}
-                          
-                          {companyData.soleTraderVerification.llmAnalysis.redFlags?.length > 0 && (
-                            <div>
-                              <h4 className="text-xs font-semibold mb-1 text-red-700 flex items-center gap-1">
-                                <ShieldAlert className="h-3 w-3" />
-                                Red Flags
-                              </h4>
-                              <ul className="space-y-0.5">
-                                {companyData.soleTraderVerification.llmAnalysis.redFlags.map((flag, index) => (
-                                  <li key={index} className="flex items-start gap-1 text-xs">
-                                    <AlertCircle className="h-3 w-3 text-red-500 mt-0.5 flex-shrink-0" />
-                                    <span>{flag}</span>
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                )}
 
-                {/* Customer Reviews - Compact */}
-                <Card>
-                  <CardHeader className="py-3">
-                    <div className="flex items-center justify-between">
-                      <CardTitle className="flex items-center gap-2 text-base">
-                        <Star className="h-4 w-4" />
-                        Customer Reviews
-                      </CardTitle>
-                      {companyData.reviews && companyData.reviews.length > 0 && (
-                        <div className="text-xl font-bold text-primary">
-                          {(companyData.reviews.reduce((sum, r) => sum + r.rating, 0) / companyData.reviews.length).toFixed(1)}
-                          <span className="text-xs text-muted-foreground ml-1">/ 5.0</span>
-                        </div>
-                      )}
-                    </div>
-                    {companyData.reviews && companyData.reviews.length > 0 && (
-                      <CardDescription className="text-xs">
-                        Based on {companyData.reviews.reduce((sum, r) => sum + r.count, 0)} reviews across {companyData.reviews.length} platforms
-                      </CardDescription>
-                    )}
-                  </CardHeader>
-                  <CardContent className="py-3">
-                    {companyData.reviews && companyData.reviews.length > 0 ? (
-                      <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                        {companyData.reviews.map((review, index) => (
-                        <div key={index} className="p-2 border rounded bg-secondary/20">
-                          <div className="flex items-center justify-between mb-1">
-                            <span className="text-xs font-semibold truncate">{review.source}</span>
-                            <span className="text-sm font-bold text-primary">{review.rating.toFixed(1)}</span>
-                          </div>
-                          <div className="flex items-center gap-0.5 mb-1">
-                            {[1, 2, 3, 4, 5].map((star) => (
-                              <Star 
-                                key={star} 
-                                className={`h-2.5 w-2.5 ${star <= Math.round(review.rating) ? "fill-accent text-accent" : "text-muted"}`} 
-                              />
-                            ))}
-                          </div>
-                          <a
-                            href={review.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-[10px] text-primary hover:underline flex items-center gap-0.5"
-                          >
-                            View {review.count}
-                            <ExternalLink className="h-2.5 w-2.5" />
-                          </a>
-                        </div>
-                      ))}
-                    </div>
-                    ) : (
-                      <div className="text-center py-8">
-                        <Star className="h-12 w-12 text-muted-foreground mx-auto mb-2 opacity-50" />
-                        <p className="text-sm text-muted-foreground">No reviews available yet</p>
-                      </div>
-                    )}
-                  </CardContent>
-                </Card>
-              </div>
-            </TabsContent>
 
           </Tabs>
         )}
