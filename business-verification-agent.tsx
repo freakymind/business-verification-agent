@@ -1946,19 +1946,45 @@ export default function BusinessVerificationAgent() {
                 </CardHeader>
                 <CardContent className="pt-4">
                   <div className="space-y-3">
-                    {/* Compact Address Display */}
-                    <div className="p-3 bg-gradient-to-br from-primary/10 to-white rounded border-2 border-primary">
-                      <div className="flex items-start gap-3">
-                        <div className="h-8 w-8 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
-                          <MapPin className="h-4 w-4 text-white" />
+                    {/* Address with Map Placeholder */}
+                    <div className="grid md:grid-cols-2 gap-3">
+                      {/* Address Info */}
+                      <div className="p-3 bg-gradient-to-br from-primary/10 to-white rounded border-2 border-primary">
+                        <div className="flex items-start gap-3">
+                          <div className="h-8 w-8 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
+                            <MapPin className="h-4 w-4 text-white" />
+                          </div>
+                          <div className="flex-1">
+                            <div className="text-xs text-muted-foreground">Verified Address</div>
+                            <div className="text-sm font-semibold mb-2">{companyData.address}</div>
+                            <Badge variant="default" className="flex items-center gap-1 w-fit text-xs">
+                              <CheckCircle className="h-3 w-3" />
+                              Google Maps Verified
+                            </Badge>
+                          </div>
                         </div>
-                        <div className="flex-1">
-                          <div className="text-xs text-muted-foreground">Verified Address</div>
-                          <div className="text-sm font-semibold mb-2">{companyData.address}</div>
-                          <Badge variant="default" className="flex items-center gap-1 w-fit text-xs">
-                            <CheckCircle className="h-3 w-3" />
-                            Google Maps
-                          </Badge>
+                      </div>
+
+                      {/* Map Placeholder */}
+                      <div className="relative h-[180px] rounded border-2 border-primary bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden">
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div className="text-center">
+                            <MapPin className="h-12 w-12 text-primary mx-auto mb-2 opacity-50" />
+                            <div className="text-xs font-semibold text-muted-foreground">Interactive Map</div>
+                            <div className="text-[10px] text-muted-foreground mt-1">Location: {companyData.address.split(',')[0]}</div>
+                          </div>
+                        </div>
+                        {/* Grid pattern for map-like appearance */}
+                        <div className="absolute inset-0 opacity-10">
+                          <div className="grid grid-cols-8 grid-rows-8 h-full w-full">
+                            {Array.from({ length: 64 }).map((_, i) => (
+                              <div key={i} className="border border-gray-400" />
+                            ))}
+                          </div>
+                        </div>
+                        {/* Pin marker */}
+                        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-full">
+                          <MapPin className="h-8 w-8 text-red-500 fill-red-500 drop-shadow-lg" />
                         </div>
                       </div>
                     </div>
@@ -2035,77 +2061,153 @@ export default function BusinessVerificationAgent() {
               </Card>
             </TabsContent>
 
-            {/* Web Presence Tab - Compact */}
+            {/* Web Presence Tab - Enhanced with Categorized Links */}
             <TabsContent value="web">
               <Card className="border-2 border-primary">
                 <CardHeader className="pb-3 bg-gradient-to-r from-primary/10 to-accent/10">
                   <CardTitle className="flex items-center gap-2 text-lg">
-                    <Globe className="h-5 w-5 text-primary" />
-                    Web Presence
+                    <Network className="h-5 w-5 text-primary" />
+                    Web Presence & Verification Links
                   </CardTitle>
-                  <CardDescription className="text-xs">Online listings and directory verification</CardDescription>
+                  <CardDescription className="text-xs">Detailed sources from Google, social media, directories, and scam checks</CardDescription>
                 </CardHeader>
                 <CardContent className="pt-4">
                   <div className="space-y-3">
-                    {/* Compact Website Status */}
-                    <div className="p-3 bg-gradient-to-r from-primary/10 to-accent/10 rounded border-2 border-primary/20">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <div className="h-8 w-8 bg-primary rounded-full flex items-center justify-center">
-                            <Globe className="h-4 w-4 text-white" />
-                          </div>
-                          <div>
-                            <div className="font-semibold text-sm">Official Website</div>
-                            <a href={companyData.website} target="_blank" rel="noopener noreferrer" className="text-xs text-primary hover:underline flex items-center gap-1">
-                              {companyData.website}
-                              <ExternalLink className="h-2.5 w-2.5" />
-                            </a>
-                          </div>
-                        </div>
-                        <Badge variant="default" className="text-xs">Active</Badge>
-                      </div>
-                    </div>
-
-                    {/* Compact Verification Sources */}
-                    <div>
-                      <h3 className="text-sm font-semibold mb-2">Verified Listings</h3>
-                      <div className="grid grid-cols-1 gap-2">
-                        {companyData.verificationSources.map((source, index) => (
-                          <div key={index} className={`flex items-center justify-between p-2 rounded border ${
-                            source.status === "verified" ? "bg-primary/5 border-primary/20" :
-                            source.status === "warning" ? "bg-accent/5 border-accent/20" :
-                            "bg-secondary/30 border-border"
-                          }`}>
-                            <div className="flex items-center gap-2">
-                              {source.status === "verified" ? (
-                                <CheckCircle className="h-3 w-3 text-primary" />
-                              ) : source.status === "warning" ? (
-                                <AlertCircle className="h-3 w-3 text-accent" />
-                              ) : (
-                                <XCircle className="h-3 w-3 text-muted-foreground" />
-                              )}
-                              <div>
-                                <div className="font-medium text-xs">{source.name}</div>
-                                <div className="text-[10px] text-muted-foreground">{source.details}</div>
-                              </div>
-                            </div>
-                            <Badge variant={source.status === "verified" ? "default" : source.status === "warning" ? "secondary" : "outline"} className="text-[10px]">
-                              {source.status.toUpperCase()}
-                            </Badge>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Compact Platform Summary */}
-                    <div className="p-3 bg-secondary/30 rounded">
-                      <h3 className="text-sm font-semibold mb-2">Summary</h3>
+                    {/* Summary Card */}
+                    <div className="p-3 bg-gradient-to-r from-primary/10 to-accent/10 rounded border border-primary/20">
+                      <h3 className="text-sm font-semibold mb-2 flex items-center gap-2">
+                        <Globe className="h-4 w-4 text-primary" />
+                        Summary
+                      </h3>
                       <p className="text-xs text-muted-foreground leading-relaxed">
-                        Verified across multiple platforms including Google Business, directories, and review sites. 
-                        Consistent information indicates authentic business presence.
+                        Business verified across {companyData.verificationSources.length}+ platforms. 
+                        {companyData.soleTraderVerification && ` Found ${companyData.soleTraderVerification.googleSearchResults.length} Google results, `}
+                        {companyData.soleTraderVerification && `${companyData.soleTraderVerification.onlinePresence.socialMedia.length} social media profiles, `}
+                        {companyData.soleTraderVerification && `${companyData.soleTraderVerification.onlinePresence.directoryListings.length} directory listings.`}
                         {companyData.website && " Active website with SSL certification."}
                       </p>
                     </div>
+
+                    {/* Google Search Results */}
+                    {companyData.soleTraderVerification && (
+                      <div>
+                        <h3 className="text-sm font-semibold mb-2 flex items-center gap-2">
+                          <Search className="h-4 w-4 text-primary" />
+                          Google Search Results ({companyData.soleTraderVerification.googleSearchResults.length})
+                        </h3>
+                        <div className="space-y-1.5">
+                          {companyData.soleTraderVerification.googleSearchResults.map((result, index) => (
+                            <a
+                              key={index}
+                              href={result.link}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="block p-2 rounded border border-border hover:border-primary/50 hover:bg-primary/5 transition-colors"
+                            >
+                              <div className="flex items-start justify-between gap-2">
+                                <div className="flex-1 min-w-0">
+                                  <div className="font-medium text-xs truncate text-primary">{result.title}</div>
+                                  <div className="text-[10px] text-muted-foreground line-clamp-2 mt-0.5">{result.snippet}</div>
+                                  <div className="flex items-center gap-2 mt-1">
+                                    <Badge variant="outline" className="text-[9px] py-0 h-4">{result.source}</Badge>
+                                    <span className="text-[9px] text-muted-foreground truncate">{result.link}</span>
+                                  </div>
+                                </div>
+                                <ExternalLink className="h-3 w-3 text-muted-foreground flex-shrink-0 mt-1" />
+                              </div>
+                            </a>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Social Media Links */}
+                    {companyData.soleTraderVerification && companyData.soleTraderVerification.onlinePresence.socialMedia.length > 0 && (
+                      <div>
+                        <h3 className="text-sm font-semibold mb-2 flex items-center gap-2">
+                          <MessageSquare className="h-4 w-4 text-primary" />
+                          Social Media Presence
+                        </h3>
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                          {companyData.soleTraderVerification.onlinePresence.socialMedia.map((social, index) => (
+                            <div key={index} className="p-2 rounded border border-border bg-secondary/20">
+                              <div className="flex items-center gap-1.5">
+                                <CheckCircle className="h-3 w-3 text-primary" />
+                                <span className="text-xs font-medium">{social}</span>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Directory Listings */}
+                    {companyData.soleTraderVerification && companyData.soleTraderVerification.onlinePresence.directoryListings.length > 0 && (
+                      <div>
+                        <h3 className="text-sm font-semibold mb-2 flex items-center gap-2">
+                          <Building2 className="h-4 w-4 text-primary" />
+                          Directory Listings
+                        </h3>
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                          {companyData.soleTraderVerification.onlinePresence.directoryListings.map((directory, index) => (
+                            <div key={index} className="p-2 rounded border border-primary/20 bg-primary/5 text-center">
+                              <div className="text-xs font-medium">{directory}</div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Scam Check Results */}
+                    {companyData.soleTraderVerification && (
+                      <div>
+                        <h3 className="text-sm font-semibold mb-2 flex items-center gap-2">
+                          <ShieldAlert className="h-4 w-4 text-primary" />
+                          Scam & Safety Check
+                        </h3>
+                        <div className="p-3 rounded border-2 border-primary bg-primary/5">
+                          <div className="flex items-center justify-between mb-2">
+                            <div className="flex items-center gap-2">
+                              <CheckCircle className="h-4 w-4 text-green-600" />
+                              <span className="text-sm font-semibold">
+                                {companyData.soleTraderVerification.scamCheck.isScam ? "⚠️ Potential Risk" : "✓ No Scam Reports"}
+                              </span>
+                            </div>
+                            <Badge variant={
+                              companyData.soleTraderVerification.scamCheck.riskLevel === "low" ? "default" :
+                              companyData.soleTraderVerification.scamCheck.riskLevel === "medium" ? "secondary" : "destructive"
+                            } className="text-xs">
+                              {companyData.soleTraderVerification.scamCheck.riskLevel.toUpperCase()} RISK
+                            </Badge>
+                          </div>
+                          <div className="space-y-1">
+                            {companyData.soleTraderVerification.scamCheck.warnings.map((warning, index) => (
+                              <div key={index} className="flex items-start gap-2 text-xs">
+                                <span className="text-primary mt-0.5">•</span>
+                                <span className="text-muted-foreground">{warning}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Trusted Sites */}
+                    {companyData.soleTraderVerification && companyData.soleTraderVerification.onlinePresence.goodSites && companyData.soleTraderVerification.onlinePresence.goodSites.length > 0 && (
+                      <div>
+                        <h3 className="text-sm font-semibold mb-2 flex items-center gap-2">
+                          <ThumbsUp className="h-4 w-4 text-green-600" />
+                          Verified on Trusted Platforms
+                        </h3>
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                          {companyData.soleTraderVerification.onlinePresence.goodSites.map((site, index) => (
+                            <div key={index} className="p-2 rounded border border-green-200 bg-green-50 text-center">
+                              <div className="text-xs font-medium text-green-700">{site}</div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </CardContent>
               </Card>
